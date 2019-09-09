@@ -1,0 +1,1 @@
+Experiment to query the encoding of various strings in C++
