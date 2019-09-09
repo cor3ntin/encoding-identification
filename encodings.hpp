@@ -1,8 +1,40 @@
 #pragma once
+
+/*
+struct text_encoding {
+    enum id {
+        other = 1,
+        unknown = 2,
+        ASCII = 3,
+        //...
+        reserved = 3000
+    }
+
+    constexpr text_encoding() noexcept;
+    constexpr text_encoding(std::string name, int mib = id::other);
+
+    constexpr int mib() const noexcept;
+    const char* name() const noexcept;
+    auto aliases() const noexcept;
+
+    static consteval text_encoding literal();
+    static consteval text_encoding wide_literal();
+
+    static text_encoding current();
+    static text_encoding wide_current();
+
+    static text_encoding for_locale(const std::locale&);
+    static text_encoding wide_for_locale(const std::locale&);
+
+    bool operator==(const text_encoding & other);
+};
+*/
+
+
+
 #include <algorithm>
 #include <locale>
 #include <langinfo.h>
-
 #include "encodings_generated.hpp"
 
 namespace cor3ntin::encoding {
@@ -106,7 +138,7 @@ struct text_encoding {
 
     /*constexpr*/ text_encoding() noexcept : mib_(2) {}
     /*constexpr*/ text_encoding(std::string name, int mib = id::other) noexcept
-    : name_(name), mib_(mib) {}
+    : name_(std::move(name)), mib_(mib) {}
 
     constexpr int mib() const noexcept{
         return mib_;
