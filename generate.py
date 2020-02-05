@@ -1,9 +1,10 @@
 import csv
+import re
 
 HEADER = """
 #pragma once
 namespace cor3ntin::encoding::details {{
-        enum id {{
+        enum class id {{
             other = 1,
             unknown = 2,
 {}
@@ -17,6 +18,11 @@ namespace cor3ntin::encoding::details {{
         const enc_data data[] = {{
 {}            {{ 0, nullptr }}
         }};
+    template <id id_>
+    constexpr bool encoding_is(const char* name) {{
+        {}
+        return false;
+    }}
 }}
 """;
 
@@ -60,12 +66,22 @@ if __name__ == "__main__":
     encodings = get_encoding()
     enum_format = ""
     data_format = "";
+    template_formats = "";
+
 
     for enc in encodings:
         enum_format = enum_format + "            {} = {},\n".format(enc[1], enc[0])
+        lst = "{" + ",".join(['"' + n + '"' for n in enc[2]]) + "}"
         for alias in enc[2]:
             data_format = data_format + "            {{ {}, \"{}\" }},\n".format(enc[0], alias)
-    print(HEADER.format(enum_format, data_format))
+        template_formats = template_formats + """
+        if constexpr(id_ == details::id::{}) {{
+            return do_compare({}, name);
+        }}
+        """.format(enc[1], lst)
+
+
+    print(HEADER.format(enum_format, data_format, template_formats))
 
 
 

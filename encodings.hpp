@@ -1,5 +1,4 @@
 #pragma once
-
 /*
 struct text_encoding {
     enum id {
@@ -20,8 +19,8 @@ struct text_encoding {
     static consteval text_encoding literal();
     static consteval text_encoding wide_literal();
 
-    static text_encoding current();
-    static text_encoding wide_current();
+    static text_encoding system();
+    static text_encoding wide_system();
 
     static text_encoding for_locale(const std::locale&);
     static text_encoding wide_for_locale(const std::locale&);
@@ -34,45 +33,21 @@ struct text_encoding {
 
 #include <algorithm>
 #include <locale>
-#include <cstring>
 #include <langinfo.h>
-#include "encodings_generated.hpp"
 
 namespace cor3ntin::encoding {
 
 namespace details {
-    constexpr bool compare_name(const char* a, const char* b) noexcept {
-        if(!a || !b)
-            return false;
-        auto la = a;
-        auto lb = b;
-        for(; *la != '\0' && *lb != '\0'; la++, lb++) {
-            while(*la == '-' || *la == '_') {
-                la ++;
-            }
-            while(*lb == '-' || *lb == '_') {
-                lb ++;
-            }
-            if(tolower(*la) != tolower(*lb))
-                return false;
-        }
-        return *la == *lb;
-    }
 
-    constexpr int find_encoding(const char* name) {
+    constexpr details::id find_encoding(const char* name) {
         if(!name)
-            return unknown;
+            return details::id::unknown;
         for(auto && e = std::begin(data); e != std::end(data); e++) {
             if(compare_name(e->name, name))
-                    return e->mib;
+                    return details::id(e->mib);
         }
-        return other;
+        return details::id::unknown;
     }
-
-    const char* locale_name(locale_t loc) {
-        return nl_langinfo_l(CODESET, loc);
-    }
-
 
     struct encoding_alias_view {
 
@@ -135,50 +110,53 @@ private:
 
 
 struct text_encoding {
-            enum id {
-            other = 1,
-            unknown = 2,
-            ascii = 3,
-            latin1 = 4,
-            utf8 = 106,
-            ucs4 = 1001,
-            utf16be = 1013,
-            utf16le = 1014,
-            utf16 = 1015,
-            utf1632 = 1017,
-            reserved = 3000
-        };
+    using id = details::id;
 
-    constexpr text_encoding() noexcept : mib_(2) {}
-    constexpr text_encoding(const char* name, int mib = id::other)
+    constexpr text_encoding() noexcept : mib_(details::id::unknown) {}
+private:
+    constexpr text_encoding(const char* name, id mib = id::other)
     : mib_(mib) {
-        std::fill(std::begin(name_), std::end(name_), 0);
-        strncpy(std::begin(name_), name, std::size(name_) -1);
+        std::size_t s = std::min(strlen(name), std::size_t(63));
+        std::copy_n(name, s, std::begin(name_));
+        name_[s] = '\0';
     }
-
-    constexpr int mib() const noexcept{
+public:
+    constexpr id mib() const noexcept{
         return mib_;
     }
 
     const char* name() const noexcept{
-        return name_.data();
+        if(!name_.empty()) {
+            return name_.data();
+        }
+        const auto a = aliases();
+        if(a.begin() != a.end()) {
+            return *a.begin();
+        }
+        return nullptr;
     }
 
     details::encoding_alias_view aliases() const noexcept{
-        return details::encoding_alias_view(mib_);
+        return details::encoding_alias_view(int(mib_));
     }
 
-    static /*consteval*/ text_encoding literal();
-    static /*consteval*/ text_encoding wide_literal();
+    static consteval text_encoding literal();
+    static consteval text_encoding wide_literal();
 
-    static text_encoding current();
-    static text_encoding wide_current();
+    static inline text_encoding system();
+    static inline text_encoding wide_system();
 
-    static text_encoding for_locale(const std::locale&);
-    static text_encoding wide_for_locale(const std::locale&);
+    template<id id>
+    static bool system_is();
 
-    bool operator==(const text_encoding & other) {
-        if(mib() < 3 && other.mib() < 3) {
+    template<id id>
+    static bool wide_system_is();
+
+    static inline text_encoding for_locale(const std::locale&);
+    static inline text_encoding wide_for_locale(const std::locale&);
+
+    constexpr bool operator==(const text_encoding & other) {
+        if(mib() <= id::unknown && other.mib() <= id::unknown) {
             return other.name() == name();
         }
         return other.mib() == mib();
@@ -188,23 +166,20 @@ struct text_encoding {
 private:
     //poor man constexpr string
     std::array<char, 30> name_ = {};
-    int mib_ = unknown;
+    id mib_ = id::unknown;
 };
 
 
-text_encoding text_encoding::current() {
-    const char* saved = std::setlocale(LC_ALL, "");
-    locale_t loc = duplocale(LC_GLOBAL_LOCALE);
-    const char* name = details::locale_name(loc);
-    const int mib = details::find_encoding(name);
-    freelocale(loc);
-    std::setlocale(LC_ALL, saved);
+inline text_encoding text_encoding::system() {
+    details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
+    const char* name = nl_langinfo_l(CODESET, loc);
+    const id mib = details::find_encoding(name);
     return text_encoding(name, mib);
 }
 
-text_encoding text_encoding::wide_current() {
+inline text_encoding text_encoding::wide_system() {
 #ifdef WIN32
-    // windOWS is always UTF-16LE
+    // windows is always UTF-16LE
     return text_encoding("UTF-16LE", details::id::UTF16LE);
 #else
     // GLIBC is always UCS4
@@ -212,19 +187,40 @@ text_encoding text_encoding::wide_current() {
 #endif
 }
 
-text_encoding text_encoding::for_locale(const std::locale& l) {
-    locale_t loc = newlocale(LC_CTYPE, l.name().c_str(), 0);
-    const char* name = details::locale_name(loc);
-    const int mib = details::find_encoding(name);
-    freelocale(loc);
+
+template<text_encoding::id id_>
+bool text_encoding::system_is() {
+#ifdef WIN32
+    //TODO
+#else
+    details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
+    const char* name = nl_langinfo_l(CODESET, loc);
+    return details::encoding_is<id_>(name);
+#endif
+}
+
+template<text_encoding::id id_>
+bool text_encoding::wide_system_is() {
+#ifdef WIN32
+    //TODO
+#else
+    // GLIBC is always UCS4
+    return id_ == details::id::UCS4;
+#endif
+}
+
+inline text_encoding text_encoding::for_locale(const std::locale& l) {
+    details::scoped_locale loc = newlocale(LC_CTYPE, l.name().c_str(), 0);
+    const char* name = nl_langinfo_l(CODESET, loc);
+    const id mib = details::find_encoding(name);
     return text_encoding(name, mib);
 }
 
-text_encoding text_encoding::wide_for_locale(const std::locale& l) {
-    return wide_current();
+inline text_encoding text_encoding::wide_for_locale(const std::locale& l) {
+    return wide_system();
 }
 
-text_encoding text_encoding::literal() {
+consteval text_encoding text_encoding::literal() {
 #ifdef __GXX_PRESUMED_EXECUTION_ENCODING
     return text_encoding(__GXX_PRESUMED_EXECUTION_ENCODING,
         details::find_encoding(__GXX_PRESUMED_EXECUTION_ENCODING));
@@ -233,7 +229,7 @@ text_encoding text_encoding::literal() {
 #endif
 }
 
-text_encoding text_encoding::wide_literal() {
+consteval text_encoding text_encoding::wide_literal() {
 #ifdef WIN32
     // windOWS is always UTF-16LE ?
     return text_encoding("UTF-16LE", details::id::UTF16LE);
@@ -247,4 +243,3 @@ text_encoding text_encoding::wide_literal() {
 
 
 }
-
