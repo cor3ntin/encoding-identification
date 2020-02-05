@@ -1,5 +1,9 @@
 #pragma once
+#ifndef H_COR3NTIN_ENCODINGS_HPP
 #include "encodings_generated.hpp"
+#endif
+
+
 namespace cor3ntin::encoding::details {
     struct encoding_windows_data
     {
@@ -113,4 +117,12 @@ namespace cor3ntin::encoding::details {
         {65000, id::UTF7},
         {65001, id::UTF8}
     };
+
+    inline id mib_from_page(int page) {
+        for (const auto& e : win_mapping) {
+            if (e.cp == page)
+                return e.id;
+        }
+        return id::other;
+    }
 }

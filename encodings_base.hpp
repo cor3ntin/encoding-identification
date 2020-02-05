@@ -7,6 +7,7 @@
 namespace cor3ntin::encoding::details {
 
 
+#ifndef _WIN32
 class scoped_locale {
 public:
     scoped_locale(locale_t loc): loc(loc) {}
@@ -17,6 +18,8 @@ public:
 private:
     locale_t loc;
 };
+#endif
+
 
 constexpr char tolower(const char c) {
     return (c >= 'A' && c <= 'Z') ? c + ('a' - 'A') : c;

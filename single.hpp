@@ -11,6 +11,7 @@
 namespace cor3ntin::encoding::details {
 
 
+#ifndef _WIN32
 class scoped_locale {
 public:
     scoped_locale(locale_t loc): loc(loc) {}
@@ -21,6 +22,8 @@ public:
 private:
     locale_t loc;
 };
+#endif
+
 
 constexpr char tolower(const char c) {
     return (c >= 'A' && c <= 'Z') ? c + ('a' - 'A') : c;
@@ -2251,6 +2254,135 @@ namespace cor3ntin::encoding::details {
 }
 
 
+#ifndef H_COR3NTIN_ENCODINGS_HPP
+#include "encodings_generated.hpp"
+#endif
+
+
+namespace cor3ntin::encoding::details {
+    struct encoding_windows_data
+    {
+        int cp;
+        id  id;
+    };
+    constexpr encoding_windows_data win_mapping[] = {
+        {037, id::IBM037},
+        {437, id::PC8CodePage437},
+        {500, id::IBM500},
+        {708, id::ISOLatinArabic},
+        {709, id::ISO89ASMO449},
+//      {710, id::other},
+//      {720, id::other},
+//      {737, id::other},
+        {775, id::PC775Baltic},
+        {850, id::PC850Multilingual},
+        {852, id::PCp852},
+        {855, id::IBM855},
+        {857, id::IBM857},
+        {858, id::IBM00858},
+        {860, id::IBM860},
+        {861, id::IBM861},
+        {862, id::PC862LatinHebrew},
+        {863, id::IBM863},
+        {864, id::IBM864},
+        {865, id::IBM865},
+        {865, id::IBM865},
+        {866, id::IBM866},
+        {869, id::IBM869},
+        {870, id::IBM870},
+        {874, id::windows874},
+//      {875, id::other},
+        {932, id::ShiftJIS},
+        {936, id::GB2312},
+        {949, id::KSC56011987},
+        {950, id::Big5},
+        {1026, id::IBM1026},
+        {1047, id::IBM1047},
+        {1140, id::IBM01140},
+        {1141, id::IBM01141},
+        {1142, id::IBM01142},
+        {1143, id::IBM01143},
+        {1144, id::IBM01144},
+        {1145, id::IBM01145},
+        {1146, id::IBM01146},
+        {1146, id::IBM01146},
+        {1147, id::IBM01147},
+        {1148, id::IBM01148},
+        {1149, id::IBM01149},
+        {1200, id::UTF16LE},
+        {1201, id::UTF16BE},
+        {1250, id::windows1250},
+        {1251, id::windows1251},
+        {1252, id::windows1252},
+        {1253, id::windows1253},
+        {1254, id::windows1254},
+        {1255, id::windows1255},
+        {1256, id::windows1256},
+        {1257, id::windows1257},
+        {1258, id::windows1258},
+//      {1361, id::other},
+        {10000, id::Macintosh},
+        {12000, id::UTF32LE},
+        {12001, id::UTF32BE},
+        {20127, id::ASCII},
+
+        {20273, id::IBM273},
+        {20277, id::IBM277},
+        {20278, id::IBM278},
+        {20280, id::IBM280},
+        {20284, id::IBM284},
+        {20285, id::IBM285},
+        {20290, id::IBM290},
+        {20297, id::IBM297},
+        {20420, id::IBM420},
+        {20423, id::IBM423},
+        {20424, id::IBM424},
+
+        {20838, id::IBMThai},
+        {20866, id::KOI8R},
+        {20871, id::IBM871},
+        {20880, id::IBM880},
+        {20905, id::IBM905},
+        {20924, id::IBM00924},
+        {20932, id::EUCPkdFmtJapanese},
+        {21866, id::KOI8U},
+
+        {28591, id::ISOLatin1},
+        {28592, id::ISOLatin2},
+        {28593, id::ISOLatin3},
+        {28594, id::ISOLatin4},
+        {28595, id::ISOLatin5},
+        {28596, id::ISOLatin6},
+        {28597, id::ISOLatinGreek},
+        {28598, id::ISOLatinHebrew},
+        {28599, id::Windows31Latin5},
+        {28603, id::ISO885913},
+        {28605, id::ISO885915},
+
+        {38598, id::ISO88598I},
+        {50220, id::ISO2022JP},
+        {50221, id::ISO2022JP},
+        {50222, id::ISO2022JP},
+
+        {51932, id::EUCPkdFmtJapanese},
+        {51936, id::GB2312},
+        {51949, id::EUCKR},
+        {52936, id::HZGB2312},
+        {54936, id::GB18030},
+        {65000, id::UTF7},
+        {65001, id::UTF8}
+    };
+
+    inline id mib_from_page(int page) {
+        for (const auto& e : win_mapping) {
+            if (e.cp == page)
+                return e.id;
+        }
+        return id::other;
+    }
+}
+
+#define NOMINMAX
 /*
 struct text_encoding {
     enum id {
@@ -2284,12 +2416,82 @@ struct text_encoding {
 
 
 #include <algorithm>
+#include <array>
 #include <locale>
+
+#ifndef H_COR3NTIN_ENCODINGS_HPP
+#include "encodings_generated.hpp"
+#include "encodings_base.hpp"
+#endif
+
+#ifdef __unix__
 #include <langinfo.h>
+#endif
+
+#ifdef _WIN32
+#include "windows.h"
+#ifndef H_COR3NTIN_ENCODINGS_HPP
+#include "encodings_windows.hpp"
+#endif
+#endif
 
 namespace cor3ntin::encoding {
 
 namespace details {
+
+#ifdef _MSC_VER
+    // FUNCTION TEMPLATE lower_bound
+    template <class _FwdIt, class _Ty, class _Pr>
+    _NODISCARD constexpr _FwdIt lower_bound(_FwdIt _First, const _FwdIt _Last, const _Ty& _Val, _Pr _Pred) {
+        using namespace std;
+        // find first element not before _Val, using _Pred
+        _Adl_verify_range(_First, _Last);
+        auto _UFirst = _Get_unwrapped(_First);
+        std::_Iter_diff_t<_FwdIt> _Count = _STD distance(_UFirst, _Get_unwrapped(_Last));
+
+        while (0 < _Count) { // divide and conquer, find half that contains answer
+            const _Iter_diff_t<_FwdIt> _Count2 = _Count >> 1; // TRANSITION, VSO#433486
+            const auto _UMid = _STD next(_UFirst, _Count2);
+            if (_Pred(*_UMid, _Val)) { // try top half
+                _UFirst = _Next_iter(_UMid);
+                _Count -= _Count2 + 1;
+            }
+            else {
+                _Count = _Count2;
+            }
+        }
+
+        _Seek_wrapped(_First, _UFirst);
+        return _First;
+    }
+    template <class _InIt, class _Diff, class _OutIt>
+    constexpr _OutIt copy_n(_InIt _First, _Diff _Count_raw, _OutIt _Dest) { // copy [_First, _First + _Count) to [_Dest, ...)
+        using namespace std;
+        _Algorithm_int_t<_Diff> _Count = _Count_raw;
+        if (0 < _Count) {
+            auto _UFirst = _Get_unwrapped_n(_First, _Count);
+            auto _UDest = _Get_unwrapped_n(_Dest, _Count);
+            for (;;) {
+                *_UDest = *_UFirst;
+                ++_UDest;
+                --_Count;
+                if (_Count == 0) { // note that we avoid an extra ++_First here to allow istream_iterator to work,
+                                   // see LWG#2471
+                    break;
+                }
+
+                ++_UFirst;
+            }
+            _Seek_wrapped(_Dest, _UDest);
+        }
+
+        return _Dest;
+    }
+namespace alg = details;
+#else
+namespace alg = std;
+#endif // def _MSC_VER
+
 
     constexpr details::id find_encoding(const char* name) {
         if(!name)
@@ -2309,9 +2511,9 @@ namespace details {
         using iterator_category = std::forward_iterator_tag;
 
         constexpr iterator(int mib ) : mib(mib) {
-            d = std::lower_bound(std::begin(data), std::end(data), mib, [] (const enc_data& d, int mib) {
+           d = alg::lower_bound(std::begin(data), std::end(data), mib, [] (const enc_data& d, int mib) {
                 return d.mib < mib;
-            });
+           });
         }
 
         constexpr const char* operator*() const {
@@ -2363,13 +2565,16 @@ private:
 
 struct text_encoding {
     using id = details::id;
-
+    constexpr text_encoding(const char* name) : text_encoding(name, details::find_encoding(name)) {
+    }
     constexpr text_encoding() noexcept : mib_(details::id::unknown) {}
 private:
-    constexpr text_encoding(const char* name, id mib = id::other)
-    : mib_(mib) {
+    constexpr text_encoding(const char* name, id mib)
+        : mib_(mib == id::unknown ? details::id::other : mib)
+     {
+
         std::size_t s = std::min(strlen(name), std::size_t(63));
-        std::copy_n(name, s, std::begin(name_));
+        details::alg::copy_n(name, s, std::begin(name_));
         name_[s] = '\0';
     }
 public:
@@ -2378,7 +2583,7 @@ public:
     }
 
     const char* name() const noexcept{
-        if(!name_.empty()) {
+        if(name_[0] != '\0') {
             return name_.data();
         }
         const auto a = aliases();
@@ -2392,8 +2597,10 @@ public:
         return details::encoding_alias_view(int(mib_));
     }
 
+#ifdef __cpp_consteval
     static consteval text_encoding literal();
     static consteval text_encoding wide_literal();
+#endif
 
     static inline text_encoding system();
     static inline text_encoding wide_system();
@@ -2417,20 +2624,31 @@ public:
 
 private:
     //poor man constexpr string
-    std::array<char, 30> name_ = {};
+    std::array<char, 30> name_ = {0};
     id mib_ = id::unknown;
+#ifdef _MSC_VER
+    int m_code_page = 0;
+#endif
 };
 
 
 inline text_encoding text_encoding::system() {
+#ifdef _WIN32
+    auto cp = GetACP();
+    text_encoding e;
+    e.mib_ = details::mib_from_page(cp);
+    e.m_code_page = cp;
+    return e;
+#else
     details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
     const char* name = nl_langinfo_l(CODESET, loc);
     const id mib = details::find_encoding(name);
     return text_encoding(name, mib);
+#endif
 }
 
 inline text_encoding text_encoding::wide_system() {
-#ifdef WIN32
+#ifdef __WIN32
     // windows is always UTF-16LE
     return text_encoding("UTF-16LE", details::id::UTF16LE);
 #else
@@ -2442,7 +2660,7 @@ inline text_encoding text_encoding::wide_system() {
 
 template<text_encoding::id id_>
 bool text_encoding::system_is() {
-#ifdef WIN32
+#ifdef _WIN32
     //TODO
 #else
     details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
@@ -2453,7 +2671,7 @@ bool text_encoding::system_is() {
 
 template<text_encoding::id id_>
 bool text_encoding::wide_system_is() {
-#ifdef WIN32
+#ifdef _WIN32
     //TODO
 #else
     // GLIBC is always UCS4
@@ -2462,16 +2680,20 @@ bool text_encoding::wide_system_is() {
 }
 
 inline text_encoding text_encoding::for_locale(const std::locale& l) {
+#ifdef _WIN32
+#else
     details::scoped_locale loc = newlocale(LC_CTYPE, l.name().c_str(), 0);
     const char* name = nl_langinfo_l(CODESET, loc);
     const id mib = details::find_encoding(name);
     return text_encoding(name, mib);
+#endif
 }
 
 inline text_encoding text_encoding::wide_for_locale(const std::locale& l) {
     return wide_system();
 }
 
+#ifdef __cpp_consteval
 consteval text_encoding text_encoding::literal() {
 #ifdef __GXX_PRESUMED_EXECUTION_ENCODING
     return text_encoding(__GXX_PRESUMED_EXECUTION_ENCODING,
@@ -2482,7 +2704,7 @@ consteval text_encoding text_encoding::literal() {
 }
 
 consteval text_encoding text_encoding::wide_literal() {
-#ifdef WIN32
+#ifdef _WIN32
     // windOWS is always UTF-16LE ?
     return text_encoding("UTF-16LE", details::id::UTF16LE);
 #elif defined(__GXX_PRESUMED_WIDE_EXECUTION_ENCODING)
@@ -2492,6 +2714,7 @@ consteval text_encoding text_encoding::wide_literal() {
     return text_encoding("UTF-16", details::id::UTF16);
 #endif
 }
+#endif
 
 
 }
