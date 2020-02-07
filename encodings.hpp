@@ -199,7 +199,7 @@ public:
         return mib_;
     }
 
-    const char* name() const noexcept{
+    constexpr const char* name() const noexcept{
         if(name_[0] != '\0') {
             return name_.data();
         }
@@ -210,7 +210,7 @@ public:
         return nullptr;
     }
 
-    details::encoding_alias_view aliases() const noexcept{
+    constexpr details::encoding_alias_view aliases() const noexcept{
         return details::encoding_alias_view(int(mib_));
     }
 
@@ -270,7 +270,10 @@ inline text_encoding text_encoding::wide_system() {
     return text_encoding("UTF-16LE", details::id::UTF16LE);
 #else
     // GLIBC is always UCS4
-    return text_encoding("ISO-10646-UCS-4", details::id::UCS4);
+    return
+        sizeof(wchar_t) == 2 ?
+    text_encoding("ISO-10646-UCS-2", details::id::Unicode):
+    text_encoding("ISO-10646-UCS-4", details::id::UCS4);
 #endif
 }
 
@@ -278,7 +281,7 @@ inline text_encoding text_encoding::wide_system() {
 template<text_encoding::id id_>
 bool text_encoding::system_is() {
 #ifdef _WIN32
-    //TODO
+    return system().mib() == id_;
 #else
     details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
     const char* name = nl_langinfo_l(CODESET, loc);
@@ -288,12 +291,7 @@ bool text_encoding::system_is() {
 
 template<text_encoding::id id_>
 bool text_encoding::wide_system_is() {
-#ifdef _WIN32
-    //TODO
-#else
-    // GLIBC is always UCS4
-    return id_ == details::id::UCS4;
-#endif
+    return wide_system().mib() == id_;
 }
 
 inline text_encoding text_encoding::for_locale(const std::locale& l) {

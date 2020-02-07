@@ -269,7 +269,7 @@ namespace cor3ntin::encoding::details {
             const char* name;
         };
         constexpr bool compare_name(const char* a, const char* b) noexcept;
-        const enc_data data[] = {
+        constexpr inline enc_data data[] = {
             { 3, "US-ASCII" },
             { 3, "ANSI_X3.4-1968" },
             { 3, "ANSI_X3.4-1986" },

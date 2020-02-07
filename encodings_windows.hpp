@@ -3,7 +3,7 @@
 #include "encodings_generated.hpp"
 #endif
 
-
+#ifdef _WIN32
 namespace cor3ntin::encoding::details {
     struct encoding_windows_data
     {
@@ -126,3 +126,4 @@ namespace cor3ntin::encoding::details {
         return id::other;
     }
 }
+#endif

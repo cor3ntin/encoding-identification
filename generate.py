@@ -15,7 +15,7 @@ namespace cor3ntin::encoding::details {{
             const char* name;
         }};
         constexpr bool compare_name(const char* a, const char* b) noexcept;
-        const enc_data data[] = {{
+        constexpr inline enc_data data[] = {{
 {}            {{ 0, nullptr }}
         }};
     template <id id_>
