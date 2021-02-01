@@ -29,12 +29,12 @@ constexpr char tolower(const char c) {
 
 
 
-inline constexpr bool compare_name(const char* a, const char* b) noexcept {
-    if(!a || !b)
+inline constexpr bool compare_name(std::string_view a, std::string_view b) noexcept {
+    if(a.empty() || b.empty())
         return false;
-    auto la = a;
-    auto lb = b;
-    for(; *la != '\0' && *lb != '\0'; la++, lb++) {
+    auto la = a.begin();
+    auto lb = b.begin();
+    for(; la != a.end()  && lb != b.end(); la++, lb++) {
         while(*la == '-' || *la == '_') {
             la ++;
         }

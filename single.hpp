@@ -33,12 +33,12 @@ constexpr char tolower(const char c) {
 
 
 
-inline constexpr bool compare_name(const char* a, const char* b) noexcept {
-    if(!a || !b)
+inline constexpr bool compare_name(std::string_view a, std::string_view b) noexcept {
+    if(a.empty() || b.empty())
         return false;
-    auto la = a;
-    auto lb = b;
-    for(; *la != '\0' && *lb != '\0'; la++, lb++) {
+    auto la = a.begin();
+    auto lb = b.begin();
+    for(; la != a.end()  && lb != b.end(); la++, lb++) {
         while(*la == '-' || *la == '_') {
             la ++;
         }
@@ -2418,7 +2418,7 @@ struct text_encoding {
 #include <algorithm>
 #include <array>
 #include <locale>
-#include <version>
+#include <string_view>
 
 #ifndef H_COR3NTIN_ENCODINGS_HPP
 #include "encodings_generated.hpp"
@@ -2494,8 +2494,8 @@ namespace alg = std;
 #endif // def _MSC_VER
 
 
-    constexpr details::id find_encoding(const char* name) {
-        if(!name)
+    constexpr details::id find_encoding(std::string_view name) {
+        if(name.empty())
             return details::id::unknown;
         for(auto && e = std::begin(data); e != std::end(data); e++) {
             if(compare_name(e->name, name))
@@ -2566,23 +2566,24 @@ private:
 
 struct text_encoding {
     using id = details::id;
-    constexpr text_encoding(const char* name) : text_encoding(name, details::find_encoding(name)) {
-    }
-    constexpr text_encoding() noexcept : text_encoding(nullptr, details::id::unknown) {}
+    constexpr text_encoding(std::string_view name) noexcept: text_encoding(name, details::find_encoding(name)) {}
+    constexpr text_encoding(id mib) noexcept : text_encoding({}, mib) {}
+
+    constexpr text_encoding() noexcept : text_encoding({}, details::id::unknown) {}
 private:
-    constexpr text_encoding(const char* name, id mib)
+    constexpr text_encoding(std::string_view name, id mib)
         : mib_(mib == id::unknown ? details::id::other : mib)
      {
-         if(!name)
+         if(name.empty())
          {
              const auto a = details::encoding_alias_view(int(mib));
              if(a.begin() != a.end()) {
                 name = *a.begin();
              }
          }
-         if(name) {
-            std::size_t s = std::min(std::char_traits<char>::length(name), std::size_t(63));
-            details::alg::copy_n(name, s, std::begin(name_));
+         if(!name.empty()) {
+            std::size_t s = std::min(name.size(), std::size_t(63));
+            details::alg::copy_n(name.data(), s, std::begin(name_));
             name_[s] = '\0';
          }
     }
@@ -2608,23 +2609,27 @@ public:
     static consteval text_encoding wide_literal();
 //#endif
 
-    static inline text_encoding system();
-    static inline text_encoding wide_system();
+    static inline text_encoding system() noexcept;
+    static inline text_encoding wide_system() noexcept;
 
     template<id id>
-    static bool system_is();
+    static bool system_is() noexcept;
 
     template<id id>
-    static bool wide_system_is();
+    static bool wide_system_is() noexcept;
 
-    static inline text_encoding for_locale(const std::locale&);
-    static inline text_encoding wide_for_locale(const std::locale&);
+    static inline text_encoding for_locale(const std::locale&) noexcept;
+    static inline text_encoding wide_for_locale(const std::locale&) noexcept;
 
-    constexpr bool operator==(const text_encoding & other) {
+    constexpr bool operator==(const text_encoding & other) noexcept{
         if(mib() <= id::unknown && other.mib() <= id::unknown) {
             return other.name() == name();
         }
         return other.mib() == mib();
+    }
+
+    constexpr bool operator==(text_encoding::id i) noexcept{
+         return i == mib();
     }
 
 
@@ -2638,7 +2643,7 @@ private:
 };
 
 
-inline text_encoding text_encoding::system() {
+inline text_encoding text_encoding::system() noexcept{
 #ifdef _WIN32
     auto cp = GetACP();
     text_encoding e;
@@ -2653,7 +2658,7 @@ inline text_encoding text_encoding::system() {
 #endif
 }
 
-inline text_encoding text_encoding::wide_system() {
+inline text_encoding text_encoding::wide_system() noexcept {
 #ifdef _WIN32
     // windows is always UTF-16LE
     return text_encoding("UTF-16LE", details::id::UTF16LE);
@@ -2668,7 +2673,7 @@ inline text_encoding text_encoding::wide_system() {
 
 
 template<text_encoding::id id_>
-bool text_encoding::system_is() {
+bool text_encoding::system_is() noexcept {
 #ifdef _WIN32
     return system().mib() == id_;
 #else
@@ -2679,11 +2684,11 @@ bool text_encoding::system_is() {
 }
 
 template<text_encoding::id id_>
-bool text_encoding::wide_system_is() {
+bool text_encoding::wide_system_is() noexcept{
     return wide_system().mib() == id_;
 }
 
-inline text_encoding text_encoding::for_locale(const std::locale& l) {
+inline text_encoding text_encoding::for_locale(const std::locale& l) noexcept{
 #ifdef _WIN32
 #else
     details::scoped_locale loc = newlocale(LC_CTYPE, l.name().c_str(), 0);
@@ -2693,7 +2698,7 @@ inline text_encoding text_encoding::for_locale(const std::locale& l) {
 #endif
 }
 
-inline text_encoding text_encoding::wide_for_locale(const std::locale&) {
+inline text_encoding text_encoding::wide_for_locale(const std::locale&) noexcept {
     return wide_system();
 }
 
