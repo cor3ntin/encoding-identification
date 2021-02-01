@@ -2573,7 +2573,7 @@ private:
         : mib_(mib == id::unknown ? details::id::other : mib)
      {
 
-        std::size_t s = std::min(strlen(name), std::size_t(63));
+        std::size_t s = std::min(std::char_traits<char>::length(name), std::size_t(63));
         details::alg::copy_n(name, s, std::begin(name_));
         name_[s] = '\0';
     }
@@ -2597,8 +2597,10 @@ public:
         return details::encoding_alias_view(int(mib_));
     }
 
+//#ifdef __cpp_consteval
     static consteval text_encoding literal();
     static consteval text_encoding wide_literal();
+//#endif
 
     static inline text_encoding system();
     static inline text_encoding wide_system();
@@ -2685,30 +2687,36 @@ inline text_encoding text_encoding::for_locale(const std::locale& l) {
 #endif
 }
 
-inline text_encoding text_encoding::wide_for_locale(const std::locale& l) {
+inline text_encoding text_encoding::wide_for_locale(const std::locale&) {
     return wide_system();
 }
 
+//#ifdef __cpp_consteval
 consteval text_encoding text_encoding::literal() {
-#ifdef __GXX_PRESUMED_EXECUTION_ENCODING
-    return text_encoding(__GXX_PRESUMED_EXECUTION_ENCODING,
-        details::find_encoding(__GXX_PRESUMED_EXECUTION_ENCODING));
-#else
+#ifdef __GNUC_EXECUTION_CHARSET_NAME
+    return text_encoding(__GNUC_EXECUTION_CHARSET_NAME,
+        details::find_encoding(__GNUC_EXECUTION_CHARSET_NAME));
+#elif defined(__clang__)
     return text_encoding("UTF-8", details::id::UTF8);
+#else
+    return {};
 #endif
 }
 
 consteval text_encoding text_encoding::wide_literal() {
 #ifdef _WIN32
-    // windOWS is always UTF-16LE ?
-    return text_encoding("UTF-16LE", details::id::UTF16LE);
-#elif defined(__GXX_PRESUMED_WIDE_EXECUTION_ENCODING)
-    return text_encoding(__GXX_PRESUMED_WIDE_EXECUTION_ENCODING,
-        details::find_encoding(__GXX_PRESUMED_WIDE_EXECUTION_ENCODING));
-#else
+    // WINDOWS is always UTF-16
     return text_encoding("UTF-16", details::id::UTF16);
+#elif defined(__GNUC_WIDE_EXECUTION_CHARSET_NAME)
+    return text_encoding(__GNUC_WIDE_EXECUTION_CHARSET_NAME,
+        details::find_encoding(__GNUC_WIDE_EXECUTION_CHARSET_NAME));
+#elif defined(__GNUC__) || defined(__clang__)
+    return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", details::id::Unicode) : text_encoding("ISO-10646-UCS-4", details::id::UCS4);
+#else
+    return {};
 #endif
 }
+//#endif
 
 
 }
