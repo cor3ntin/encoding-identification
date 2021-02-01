@@ -2567,15 +2567,23 @@ struct text_encoding {
     using id = details::id;
     constexpr text_encoding(const char* name) : text_encoding(name, details::find_encoding(name)) {
     }
-    constexpr text_encoding() noexcept : mib_(details::id::unknown) {}
+    constexpr text_encoding() noexcept : text_encoding(nullptr, details::id::unknown) {}
 private:
     constexpr text_encoding(const char* name, id mib)
         : mib_(mib == id::unknown ? details::id::other : mib)
      {
-
-        std::size_t s = std::min(std::char_traits<char>::length(name), std::size_t(63));
-        details::alg::copy_n(name, s, std::begin(name_));
-        name_[s] = '\0';
+         if(!name)
+         {
+             const auto a = details::encoding_alias_view(int(mib));
+             if(a.begin() != a.end()) {
+                name = *a.begin();
+             }
+         }
+         if(name) {
+            std::size_t s = std::min(std::char_traits<char>::length(name), std::size_t(63));
+            details::alg::copy_n(name, s, std::begin(name_));
+            name_[s] = '\0';
+         }
     }
 public:
     constexpr id mib() const noexcept{
@@ -2585,10 +2593,6 @@ public:
     constexpr const char* name() const noexcept{
         if(name_[0] != '\0') {
             return name_.data();
-        }
-        const auto a = aliases();
-        if(a.begin() != a.end()) {
-            return *a.begin();
         }
         return nullptr;
     }
