@@ -2382,6 +2382,7 @@ namespace cor3ntin::encoding::details {
     }
 }
 #endif
+#include <cstddef>
 #define NOMINMAX
 /*
 struct text_encoding {
@@ -2512,6 +2513,7 @@ namespace alg = std;
         using value_type = const char*;
         using reference  = const char*;
         using iterator_category = std::forward_iterator_tag;
+        using difference_type   = std::ptrdiff_t;
 
         constexpr iterator() = default;
 
