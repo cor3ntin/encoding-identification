@@ -126,6 +126,8 @@ namespace alg = std;
     constexpr encoding_alias_view(int mib) : mib(mib){};
     struct sentinel {};
     struct iterator {
+        using value_type = const char*;
+        using reference  = const char*;
         using iterator_category = std::forward_iterator_tag;
 
         constexpr iterator(int mib ) : mib(mib) {
