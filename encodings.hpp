@@ -324,6 +324,9 @@ consteval text_encoding text_encoding::literal() {
 #ifdef __GNUC_EXECUTION_CHARSET_NAME
     return text_encoding(__GNUC_EXECUTION_CHARSET_NAME,
         details::find_encoding(__GNUC_EXECUTION_CHARSET_NAME));
+#elif defined(__clang_literal_encoding__)
+return text_encoding(__clang_literal_encoding__,
+        details::find_encoding(__clang_literal_encoding__));
 #elif defined(__clang__)
     return text_encoding("UTF-8", details::id::UTF8);
 #else
@@ -338,6 +341,9 @@ consteval text_encoding text_encoding::wide_literal() {
 #elif defined(__GNUC_WIDE_EXECUTION_CHARSET_NAME)
     return text_encoding(__GNUC_WIDE_EXECUTION_CHARSET_NAME,
         details::find_encoding(__GNUC_WIDE_EXECUTION_CHARSET_NAME));
+#elif defined(__clang_wide_literal_encoding__)
+return text_encoding(__clang_wide_literal_encoding__,
+        details::find_encoding(__clang_wide_literal_encoding__));
 #elif defined(__GNUC__) || defined(__clang__)
     return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", details::id::Unicode) : text_encoding("ISO-10646-UCS-4", details::id::UCS4);
 #else
