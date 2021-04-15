@@ -145,6 +145,7 @@ namespace alg = std;
         }
 
         constexpr iterator& operator++(int) {
+            d++;
             return *this;
         }
 
