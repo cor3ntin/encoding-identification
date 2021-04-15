@@ -2513,7 +2513,9 @@ namespace alg = std;
         using reference  = const char*;
         using iterator_category = std::forward_iterator_tag;
 
-        constexpr iterator(int mib ) : mib(mib) {
+        constexpr iterator() = default;
+
+        constexpr iterator(int mib) : mib(mib) {
            d = alg::lower_bound(std::begin(data), std::end(data), mib, [] (const enc_data& d, int mib) {
                 return d.mib < mib;
            });
