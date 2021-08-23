@@ -18,9 +18,7 @@ IBM367
 cp367
 
 csASCII",
-ISO-8859-1,ISO_8859-1:1987,4,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-100
+ISO-8859-1,ISO_8859-1:1987,4,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-100
 
 ISO_8859-1
 
@@ -35,9 +33,7 @@ IBM819
 CP819
 
 csISOLatin1",
-ISO-8859-2,ISO_8859-2:1987,5,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-101
+ISO-8859-2,ISO_8859-2:1987,5,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-101
 
 ISO_8859-2
 
@@ -48,9 +44,7 @@ latin2
 l2
 
 csISOLatin2",
-ISO-8859-3,ISO_8859-3:1988,6,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-109
+ISO-8859-3,ISO_8859-3:1988,6,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-109
 
 ISO_8859-3
 
@@ -61,9 +55,7 @@ latin3
 l3
 
 csISOLatin3",
-ISO-8859-4,ISO_8859-4:1988,7,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-110
+ISO-8859-4,ISO_8859-4:1988,7,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-110
 
 ISO_8859-4
 
@@ -74,9 +66,7 @@ latin4
 l4
 
 csISOLatin4",
-ISO-8859-5,ISO_8859-5:1988,8,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-144
+ISO-8859-5,ISO_8859-5:1988,8,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-144
 
 ISO_8859-5
 
@@ -85,9 +75,7 @@ ISO-8859-5
 cyrillic
 
 csISOLatinCyrillic",
-ISO-8859-6,ISO_8859-6:1987,9,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-127
+ISO-8859-6,ISO_8859-6:1987,9,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-127
 
 ISO_8859-6
 
@@ -100,9 +88,7 @@ ASMO-708
 arabic
 
 csISOLatinArabic",
-ISO-8859-7,ISO_8859-7:1987,10,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1947][RFC1345][Keld_Simonsen],"iso-ir-126
+ISO-8859-7,ISO_8859-7:1987,10,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1947][RFC1345][Keld_Simonsen],"iso-ir-126
 
 ISO_8859-7
 
@@ -117,9 +103,7 @@ greek
 greek8
 
 csISOLatinGreek",
-ISO-8859-8,ISO_8859-8:1988,11,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-138
+ISO-8859-8,ISO_8859-8:1988,11,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-138
 
 ISO_8859-8
 
@@ -128,9 +112,7 @@ ISO-8859-8
 hebrew
 
 csISOLatinHebrew",
-ISO-8859-9,ISO_8859-9:1989,12,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-148
+ISO-8859-9,ISO_8859-9:1989,12,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-148
 
 ISO_8859-9
 
@@ -141,9 +123,7 @@ latin5
 l5
 
 csISOLatin5",
-ISO-8859-10,ISO-8859-10,13,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-157
+ISO-8859-10,ISO-8859-10,13,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-157
 
 l6
 
@@ -152,9 +132,7 @@ ISO_8859-10:1992
 csISOLatin6
 
 latin6",
-,ISO_6937-2-add,14,"[ISO-IR: International Register of Escape Sequences] and ISO 6937-2:1983
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-142
+,ISO_6937-2-add,14,"[ISO-IR: International Register of Escape Sequences] and ISO 6937-2:1983 Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-142
 
 csISOTextComm",
 ,JIS_X0201,15,"JIS X 0201-1976.   One byte only, this is equivalent to
@@ -197,9 +175,7 @@ code set 3: JIS X0212-1990 (a double 7-bit byte set)
 restricted to A0-FF in
 the first byte
 and 21-7E in the second byte",,csEUCFixWidJapanese,
-,BS_4730,20,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-4
+,BS_4730,20,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-4
 
 ISO646-GB
 
@@ -208,41 +184,31 @@ gb
 uk
 
 csISO4UnitedKingdom",
-,SEN_850200_C,21,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-11
+,SEN_850200_C,21,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-11
 
 ISO646-SE2
 
 se2
 
 csISO11SwedishForNames",
-,IT,22,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-15
+,IT,22,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-15
 
 ISO646-IT
 
 csISO15Italian",
-,ES,23,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-17
+,ES,23,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-17
 
 ISO646-ES
 
 csISO17Spanish",
-,DIN_66003,24,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-21
+,DIN_66003,24,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-21
 
 de
 
 ISO646-DE
 
 csISO21German",
-,NS_4551-1,25,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-60
+,NS_4551-1,25,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-60
 
 ISO646-NO
 
@@ -251,9 +217,7 @@ no
 csISO60DanishNorwegian
 
 csISO60Norwegian1",
-,NF_Z_62-010,26,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-69
+,NF_Z_62-010,26,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-69
 
 ISO646-FR
 
@@ -263,42 +227,28 @@ csISO69French",
 ,ISO-10646-UTF-1,27,"Universal Transfer Format (1), this is the multibyte
 encoding, that subsets ASCII-7. It does not have byte
 ordering issues.",,csISO10646UTF1,
-,ISO_646.basic:1983,28,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ref
+,ISO_646.basic:1983,28,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ref
 
 csISO646basic1983",
 ,INVARIANT,29,,[RFC1345][Keld_Simonsen],csINVARIANT,
-,ISO_646.irv:1983,30,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-2
+,ISO_646.irv:1983,30,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-2
 
 irv
 
 csISO2IntlRefVersion",
-,NATS-SEFI,31,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-8-1
+,NATS-SEFI,31,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-8-1
 
 csNATSSEFI",
-,NATS-SEFI-ADD,32,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-8-2
+,NATS-SEFI-ADD,32,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-8-2
 
 csNATSSEFIADD",
-,NATS-DANO,33,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-9-1
+,NATS-DANO,33,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-9-1
 
 csNATSDANO",
-,NATS-DANO-ADD,34,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-9-2
+,NATS-DANO-ADD,34,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-9-2
 
 csNATSDANOADD",
-,SEN_850200_B,35,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-10
+,SEN_850200_B,35,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-10
 
 FI
 
@@ -309,9 +259,7 @@ ISO646-SE
 se
 
 csISO10Swedish",
-,KS_C_5601-1987,36,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-149
+,KS_C_5601-1987,36,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-149
 
 KS_C_5601-1989
 
@@ -324,9 +272,7 @@ ISO-2022-KR,ISO-2022-KR,37,[RFC1557] (see also KS_C_5601-1987),[RFC1557][Woohyon
 EUC-KR,EUC-KR,38,[RFC1557] (see also KS_C_5861-1992),[RFC1557][Woohyong_Choi],csEUCKR,
 ISO-2022-JP,ISO-2022-JP,39,[RFC1468] (see also [RFC2237]),[RFC1468][Jun_Murai],csISO2022JP,
 ISO-2022-JP-2,ISO-2022-JP-2,40,[RFC1554],[RFC1554][Masataka_Ohta],csISO2022JP2,
-,JIS_C6220-1969-jp,41,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"JIS_C6220-1969
+,JIS_C6220-1969-jp,41,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"JIS_C6220-1969
 
 iso-ir-13
 
@@ -335,231 +281,161 @@ katakana
 x0201-7
 
 csISO13JISC6220jp",
-,JIS_C6220-1969-ro,42,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-14
+,JIS_C6220-1969-ro,42,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-14
 
 jp
 
 ISO646-JP
 
 csISO14JISC6220ro",
-,PT,43,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-16
+,PT,43,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-16
 
 ISO646-PT
 
 csISO16Portuguese",
-,greek7-old,44,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-18
+,greek7-old,44,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-18
 
 csISO18Greek7Old",
-,latin-greek,45,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-19
+,latin-greek,45,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-19
 
 csISO19LatinGreek",
-,NF_Z_62-010_(1973),46,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-25
+,NF_Z_62-010_(1973),46,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-25
 
 ISO646-FR1
 
 csISO25French",
-,Latin-greek-1,47,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-27
+,Latin-greek-1,47,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-27
 
 csISO27LatinGreek1",
-,ISO_5427,48,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-37
+,ISO_5427,48,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-37
 
 csISO5427Cyrillic",
-,JIS_C6226-1978,49,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-42
+,JIS_C6226-1978,49,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-42
 
 csISO42JISC62261978",
-,BS_viewdata,50,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-47
+,BS_viewdata,50,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-47
 
 csISO47BSViewdata",
-,INIS,51,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-49
+,INIS,51,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-49
 
 csISO49INIS",
-,INIS-8,52,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-50
+,INIS-8,52,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-50
 
 csISO50INIS8",
-,INIS-cyrillic,53,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-51
+,INIS-cyrillic,53,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-51
 
 csISO51INISCyrillic",
-,ISO_5427:1981,54,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-54
+,ISO_5427:1981,54,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-54
 
 ISO5427Cyrillic1981
 
 csISO54271981",
-,ISO_5428:1980,55,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-55
+,ISO_5428:1980,55,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-55
 
 csISO5428Greek",
-,GB_1988-80,56,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-57
+,GB_1988-80,56,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-57
 
 cn
 
 ISO646-CN
 
 csISO57GB1988",
-,GB_2312-80,57,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-58
+,GB_2312-80,57,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-58
 
 chinese
 
 csISO58GB231280",
-,NS_4551-2,58,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ISO646-NO2
+,NS_4551-2,58,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ISO646-NO2
 
 iso-ir-61
 
 no2
 
 csISO61Norwegian2",
-,videotex-suppl,59,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-70
+,videotex-suppl,59,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-70
 
 csISO70VideotexSupp1",
-,PT2,60,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-84
+,PT2,60,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-84
 
 ISO646-PT2
 
 csISO84Portuguese2",
-,ES2,61,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-85
+,ES2,61,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-85
 
 ISO646-ES2
 
 csISO85Spanish2",
-,MSZ_7795.3,62,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-86
+,MSZ_7795.3,62,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-86
 
 ISO646-HU
 
 hu
 
 csISO86Hungarian",
-,JIS_C6226-1983,63,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-87
+,JIS_C6226-1983,63,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-87
 
 x0208
 
 JIS_X0208-1983
 
 csISO87JISX0208",
-,greek7,64,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-88
+,greek7,64,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-88
 
 csISO88Greek7",
-,ASMO_449,65,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ISO_9036
+,ASMO_449,65,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ISO_9036
 
 arabic7
 
 iso-ir-89
 
 csISO89ASMO449",
-,iso-ir-90,66,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],csISO90,
-,JIS_C6229-1984-a,67,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-91
+,iso-ir-90,66,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],csISO90,
+,JIS_C6229-1984-a,67,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-91
 
 jp-ocr-a
 
 csISO91JISC62291984a",
-,JIS_C6229-1984-b,68,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-92
+,JIS_C6229-1984-b,68,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-92
 
 ISO646-JP-OCR-B
 
 jp-ocr-b
 
 csISO92JISC62991984b",
-,JIS_C6229-1984-b-add,69,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-93
+,JIS_C6229-1984-b-add,69,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-93
 
 jp-ocr-b-add
 
 csISO93JIS62291984badd",
-,JIS_C6229-1984-hand,70,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-94
+,JIS_C6229-1984-hand,70,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-94
 
 jp-ocr-hand
 
 csISO94JIS62291984hand",
-,JIS_C6229-1984-hand-add,71,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-95
+,JIS_C6229-1984-hand-add,71,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-95
 
 jp-ocr-hand-add
 
 csISO95JIS62291984handadd",
-,JIS_C6229-1984-kana,72,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-96
+,JIS_C6229-1984-kana,72,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-96
 
 csISO96JISC62291984kana",
-,ISO_2033-1983,73,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-98
+,ISO_2033-1983,73,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-98
 
 e13b
 
 csISO2033",
-,ANSI_X3.110-1983,74,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-99
+,ANSI_X3.110-1983,74,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-99
 
 CSA_T500-1983
 
 NAPLPS
 
 csISO99NAPLPS",
-,T.61-7bit,75,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-102
+,T.61-7bit,75,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-102
 
 csISO102T617bit",
-,T.61-8bit,76,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"T.61
+,T.61-8bit,76,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"T.61
 
 iso-ir-103
 
@@ -569,9 +445,7 @@ csISO103T618bit",
 KOI8-E
 
 csISO111ECMACyrillic",
-,CSA_Z243.4-1985-1,78,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-121
+,CSA_Z243.4-1985-1,78,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-121
 
 ISO646-CA
 
@@ -582,9 +456,7 @@ csa71
 ca
 
 csISO121Canadian1",
-,CSA_Z243.4-1985-2,79,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-122
+,CSA_Z243.4-1985-2,79,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-122
 
 ISO646-CA2
 
@@ -593,9 +465,7 @@ csa7-2
 csa72
 
 csISO122Canadian2",
-,CSA_Z243.4-1985-gr,80,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-123
+,CSA_Z243.4-1985-gr,80,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-123
 
 csISO123CSAZ24341985gr",
 ISO-8859-6-E,ISO_8859-6-E,81,[RFC1556],[RFC1556][IANA],"csISO88596E
@@ -604,9 +474,7 @@ ISO-8859-6-E",
 ISO-8859-6-I,ISO_8859-6-I,82,[RFC1556],[RFC1556][IANA],"csISO88596I
 
 ISO-8859-6-I",
-,T.101-G2,83,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-128
+,T.101-G2,83,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-128
 
 csISO128T101G2",
 ISO-8859-8-E,ISO_8859-8-E,84,[RFC1556],[RFC1556][Hank_Nussbacher],"csISO88598E
@@ -615,14 +483,10 @@ ISO-8859-8-E",
 ISO-8859-8-I,ISO_8859-8-I,85,[RFC1556],[RFC1556][Hank_Nussbacher],"csISO88598I
 
 ISO-8859-8-I",
-,CSN_369103,86,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-139
+,CSN_369103,86,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-139
 
 csISO139CSN369103",
-,JUS_I.B1.002,87,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-141
+,JUS_I.B1.002,87,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-141
 
 ISO646-YU
 
@@ -631,75 +495,53 @@ js
 yu
 
 csISO141JUSIB1002",
-,IEC_P27-1,88,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-143
+,IEC_P27-1,88,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-143
 
 csISO143IECP271",
-,JUS_I.B1.003-serb,89,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-146
+,JUS_I.B1.003-serb,89,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-146
 
 serbian
 
 csISO146Serbian",
-,JUS_I.B1.003-mac,90,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"macedonian
+,JUS_I.B1.003-mac,90,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"macedonian
 
 iso-ir-147
 
 csISO147Macedonian",
-,greek-ccitt,91,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-150
+,greek-ccitt,91,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-150
 
 csISO150
 
 csISO150GreekCCITT",
-,NC_NC00-10:81,92,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"cuba
+,NC_NC00-10:81,92,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"cuba
 
 iso-ir-151
 
 ISO646-CU
 
 csISO151Cuba",
-,ISO_6937-2-25,93,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-152
+,ISO_6937-2-25,93,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-152
 
 csISO6937Add",
-,GOST_19768-74,94,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ST_SEV_358-88
+,GOST_19768-74,94,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"ST_SEV_358-88
 
 iso-ir-153
 
 csISO153GOST1976874",
-,ISO_8859-supp,95,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-154
+,ISO_8859-supp,95,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-154
 
 latin1-2-5
 
 csISO8859Supp",
-,ISO_10367-box,96,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-155
+,ISO_10367-box,96,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"iso-ir-155
 
 csISO10367Box",
-,latin-lap,97,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"lap
+,latin-lap,97,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"lap
 
 iso-ir-158
 
 csISO158Lap",
-,JIS_X0212-1990,98,"[ISO-IR: International Register of Escape Sequences]
-
-        Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"x0212
+,JIS_X0212-1990,98,"[ISO-IR: International Register of Escape Sequences] Note: The current registration authority is IPSJ/ITSCJ, Japan.",[RFC1345][Keld_Simonsen],"x0212
 
 iso-ir-159
 
@@ -810,6 +652,10 @@ csCESU-8",
 ,BOCU-1,1020,[http://www.unicode.org/notes/tn6/],[Markus_Scherer],"csBOCU1
 
 csBOCU-1",
+,UTF-7-IMAP,1021,"Note: This charset is used to encode Unicode in IMAP mailbox names; 
+see section 5.1.3 of [RFC3501]. It should never be used 
+outside this context. A name has been assigned so that charset processing 
+implementations can refer to it in a consistent way.",[Florian_Weimer],csUTF7IMAP,
 ,ISO-8859-1-Windows-3.0-Latin-1,2000,"Extended ISO 8859-1 Latin-1 for Windows 3.0.
 PCL Symbol Set id: 9U","[Hewlett-Packard Company, ""HP PCL 5 Comparison Guide"",
 (P/N 5021-0329) pp B-13, 1996.]",csWindows30Latin1,

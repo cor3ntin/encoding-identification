@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <locale.h>
 #include <cstring>
+#include <string_view>
 
 namespace cor3ntin::encoding::details {
 
@@ -13,8 +14,13 @@ public:
     scoped_locale(locale_t loc): loc(loc) {}
     operator locale_t() const {return loc;}
     ~scoped_locale() {
-        freelocale(loc);
+        if(loc)
+            freelocale(loc);
     }
+    operator bool() const {
+        return loc;
+    }
+
 private:
     locale_t loc;
 };

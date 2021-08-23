@@ -119,7 +119,7 @@ namespace cor3ntin::encoding::details {
             OSDEBCDICDF041 = 117,
             ISO115481 = 118,
             KZ1048 = 119,
-            Unicode = 1000,
+            UCS2 = 1000,
             UCS4 = 1001,
             UnicodeASCII = 1002,
             UnicodeLatin1 = 1003,
@@ -140,6 +140,7 @@ namespace cor3ntin::encoding::details {
             UTF32BE = 1018,
             UTF32LE = 1019,
             BOCU1 = 1020,
+            UTF7IMAP = 1021,
             Windows30Latin1 = 2000,
             Windows31Latin1 = 2001,
             Windows31Latin2 = 2002,
@@ -778,6 +779,8 @@ namespace cor3ntin::encoding::details {
             { 1020, "BOCU-1" },
             { 1020, "csBOCU-1" },
             { 1020, "csBOCU1" },
+            { 1021, "UTF-7-IMAP" },
+            { 1021, "csUTF7IMAP" },
             { 2000, "ISO-8859-1-Windows-3.0-Latin-1" },
             { 2000, "csWindows30Latin1" },
             { 2001, "ISO-8859-1-Windows-3.1-Latin-1" },
@@ -1620,7 +1623,7 @@ namespace cor3ntin::encoding::details {
             return do_compare({"KZ-1048","RK1048","STRK1048-2002","csKZ1048"}, name);
         }
         
-        if constexpr(id_ == details::id::Unicode) {
+        if constexpr(id_ == details::id::UCS2) {
             return do_compare({"ISO-10646-UCS-2","csUnicode"}, name);
         }
         
@@ -1702,6 +1705,10 @@ namespace cor3ntin::encoding::details {
         
         if constexpr(id_ == details::id::BOCU1) {
             return do_compare({"BOCU-1","csBOCU-1","csBOCU1"}, name);
+        }
+        
+        if constexpr(id_ == details::id::UTF7IMAP) {
+            return do_compare({"UTF-7-IMAP","csUTF7IMAP"}, name);
         }
         
         if constexpr(id_ == details::id::Windows30Latin1) {

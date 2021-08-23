@@ -1,4 +1,5 @@
 #include "single.hpp"
+#include <cstdlib>
 #include <iostream>
 
 void print(const cor3ntin::encoding::text_encoding & c) {
@@ -16,12 +17,13 @@ void print(const cor3ntin::encoding::text_encoding & c) {
 }
 
 int main() {
+    putenv("LC_CTYPE=en_US");
     std::cout << "Literal Encoding: ";
     print(cor3ntin::encoding::text_encoding::literal());
     std::cout << "Wide Literal Encoding: ";
     print(cor3ntin::encoding::text_encoding::wide_literal());
     std::cout << "Runtime Encoding: ";
-    print(cor3ntin::encoding::text_encoding::system());
+    print(cor3ntin::encoding::text_encoding::environment());
     std::cout << "Wide runtime Encoding: ";
-    print(cor3ntin::encoding::text_encoding::wide_system());
+    print(cor3ntin::encoding::text_encoding::wide_environment());
 }

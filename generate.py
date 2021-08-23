@@ -1,5 +1,6 @@
 import csv
 import re
+import collections
 
 HEADER = """
 #pragma once
@@ -33,6 +34,8 @@ def get_enum_name(lst, name):
     else:
         e = e[0][2:]
         e = "".join(filter(lambda c : c != '-', e))
+    if e == "Unicode":
+        e = "UCS2"
     return e
 
 def get_encoding():
@@ -40,7 +43,7 @@ def get_encoding():
     with open('character-sets-1.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            aliases = list(set([x for x in row['Aliases'].splitlines() if x is not '' and x[0] != '(']))
+            aliases = list(set([x for x in row['Aliases'].splitlines() if x != '' and x[0] != '(']))
             aliases.sort()
             mime = row['Preferred MIME Name']
             name = row['Name']
@@ -48,10 +51,12 @@ def get_encoding():
                 aliases.remove(name)
             aliases = [name] + aliases
 
-            if mime is not '':
+            if mime != '':
                 if mime in aliases:
                     aliases.remove(mime)
                 aliases = [mime] + aliases
+
+            #aliases = list(set([name.replace('-', '').replace('_', '').upper() for name in aliases]))
 
 
             n = row['MIBenum']
@@ -69,16 +74,29 @@ if __name__ == "__main__":
     template_formats = "";
 
 
+    max = 0
+    names = []
+
     for enc in encodings:
         enum_format = enum_format + "            {} = {},\n".format(enc[1], enc[0])
+        #names.append(enc[1])
+        if len(enc[1]) > max: max = len(enc[1])
         lst = "{" + ",".join(['"' + n + '"' for n in enc[2]]) + "}"
         for alias in enc[2]:
+            if len(alias) > max: max = len(alias)
+            names.append(alias)
             data_format = data_format + "            {{ {}, \"{}\" }},\n".format(enc[0], alias)
         template_formats = template_formats + """
         if constexpr(id_ == details::id::{}) {{
             return do_compare({}, name);
         }}
         """.format(enc[1], lst)
+
+    #print(max)
+
+    #names = [name.replace('-', '').replace('_', '').upper() for name in names]
+    #print([(item, count) for item, count in collections.Counter(names).items() if count > 1])
+
 
 
     print(HEADER.format(enum_format, data_format, template_formats))

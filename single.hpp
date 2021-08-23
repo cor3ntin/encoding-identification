@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <locale.h>
 #include <cstring>
+#include <string_view>
 
 namespace cor3ntin::encoding::details {
 
@@ -17,8 +18,13 @@ public:
     scoped_locale(locale_t loc): loc(loc) {}
     operator locale_t() const {return loc;}
     ~scoped_locale() {
-        freelocale(loc);
+        if(loc)
+            freelocale(loc);
     }
+    operator bool() const {
+        return loc;
+    }
+
 private:
     locale_t loc;
 };
@@ -2383,6 +2389,8 @@ namespace cor3ntin::encoding::details {
 }
 #endif
 #include <cstddef>
+#include <cstring>
+#include <unistd.h>
 #define NOMINMAX
 /*
 struct text_encoding {
@@ -2420,6 +2428,8 @@ struct text_encoding {
 #include <array>
 #include <locale>
 #include <string_view>
+#include <fstream>
+#include <streambuf>
 
 #ifndef H_COR3NTIN_ENCODINGS_HPP
 #include "encodings_generated.hpp"
@@ -2616,14 +2626,14 @@ public:
     static consteval text_encoding wide_literal();
 //#endif
 
-    static inline text_encoding system() noexcept;
-    static inline text_encoding wide_system() noexcept;
+    static inline text_encoding environment() noexcept;
+    static inline text_encoding wide_environment() noexcept;
 
     template<id id>
-    static bool system_is() noexcept;
+    static bool environment_is() noexcept;
 
     template<id id>
-    static bool wide_system_is() noexcept;
+    static bool wide_environment_is() noexcept;
 
     static inline text_encoding for_locale(const std::locale&) noexcept;
     static inline text_encoding wide_for_locale(const std::locale&) noexcept;
@@ -2650,22 +2660,57 @@ private:
 };
 
 
-inline text_encoding text_encoding::system() noexcept{
+inline text_encoding text_encoding::environment() noexcept{
+    static text_encoding encoding = []() -> text_encoding{
 #ifdef _WIN32
-    auto cp = GetACP();
-    text_encoding e;
-    e.mib_ = details::mib_from_page(cp);
-    e.m_code_page = cp;
-    return e;
+        auto cp = GetACP();
+        text_encoding e;
+        e.mib_ = details::mib_from_page(cp);
+        e.m_code_page = cp;
+        return e;
 #else
-    details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
-    const char* name = nl_langinfo_l(CODESET, loc);
-    const id mib = details::find_encoding(name);
-    return text_encoding(name, mib);
-#endif
+        auto make_locale = [](const char* name) {
+            return  newlocale(LC_CTYPE_MASK, name, (locale_t)0);
+        };
+        auto __get_locale = [&]() {
+            std::string filename = "/proc/" +std::to_string(getpid()) +"/environ";
+            std::ifstream file(filename);
+            if(!file)
+                return make_locale("");
+            std::string buffer{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
+            // https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_02
+            for(auto KEY : {"LC_ALL=", "LC_CTYPE=", "LANG="}) {
+                const auto n = strlen(KEY);
+                for(std::size_t pos= 0; pos < buffer.size();) {
+                    const char* entry = buffer.data() + pos;
+                    if(!entry || !*entry)
+                        break;
+                    auto entry_size = strlen(entry);
+                    if(entry_size > n && strncmp(KEY, entry, n) == 0) {
+                        auto loc = make_locale(entry+n);
+                        if(loc)
+                            return loc;
+                    }
+                    pos += entry_size +1;
+                    if(!entry)break;
+                }
+            }
+            return make_locale("");
+        };
+        details::scoped_locale loc = __get_locale();
+        if(!loc)
+            return {};
+        const char* name = nl_langinfo_l(CODESET, loc);
+        if(!name)
+            return {};
+        const id mib = details::find_encoding(name);
+        return text_encoding(name, mib);
+#endif // _WIN32
+    }();
+    return encoding;
 }
 
-inline text_encoding text_encoding::wide_system() noexcept {
+inline text_encoding text_encoding::wide_environment() noexcept {
 #ifdef _WIN32
     // windows is always UTF-16LE
     return text_encoding("UTF-16LE", details::id::UTF16LE);
@@ -2680,7 +2725,7 @@ inline text_encoding text_encoding::wide_system() noexcept {
 
 
 template<text_encoding::id id_>
-bool text_encoding::system_is() noexcept {
+bool text_encoding::environment_is() noexcept {
 #ifdef _WIN32
     return system().mib() == id_;
 #else
@@ -2691,8 +2736,8 @@ bool text_encoding::system_is() noexcept {
 }
 
 template<text_encoding::id id_>
-bool text_encoding::wide_system_is() noexcept{
-    return wide_system().mib() == id_;
+bool text_encoding::wide_environment_is() noexcept{
+    return wide_environment().mib() == id_;
 }
 
 inline text_encoding text_encoding::for_locale(const std::locale& l) noexcept{
@@ -2706,7 +2751,7 @@ inline text_encoding text_encoding::for_locale(const std::locale& l) noexcept{
 }
 
 inline text_encoding text_encoding::wide_for_locale(const std::locale&) noexcept {
-    return wide_system();
+    return wide_environment();
 }
 
 //#ifdef __cpp_consteval
