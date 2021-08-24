@@ -2,16 +2,14 @@
 #include <cstdlib>
 #include <iostream>
 
-void print(const cor3ntin::encoding::text_encoding & c) {
+void print(const cor3ntin::encoding::text_encoding& c) {
     if(c.name()) {
-        std::cout << c.name()
-             << " (iana mib: " << int(c.mib()) << ")\n"
-             << "Aliases:\n";
-    }
-    else {
+        std::cout << c.name() << " (iana mib: " << int(c.mib()) << ")\n"
+                  << "Aliases:\n";
+    } else {
         std::cout << "Not implemented\n";
     }
-    for(auto && a : c.aliases()) {
+    for(auto&& a : c.aliases()) {
         std::cout << '\t' << a << '\n';
     }
 }
