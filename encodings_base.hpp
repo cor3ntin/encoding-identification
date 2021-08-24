@@ -5,10 +5,15 @@
 #include <cstring>
 #include <string_view>
 
+#ifdef __APPLE__
+#include <xlocale.h>
+#include <langinfo.h>
+#endif
+
 namespace cor3ntin::encoding::details {
 
 
-#ifndef _WIN32
+#if !defined(_WIN32)
 class scoped_locale {
 public:
     scoped_locale(locale_t loc): loc(loc) {}

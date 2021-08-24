@@ -9,10 +9,15 @@
 #include <cstring>
 #include <string_view>
 
+#ifdef __APPLE__
+#include <xlocale.h>
+#include <langinfo.h>
+#endif
+
 namespace cor3ntin::encoding::details {
 
 
-#ifndef _WIN32
+#if !defined(_WIN32)
 class scoped_locale {
 public:
     scoped_locale(locale_t loc): loc(loc) {}
@@ -186,7 +191,7 @@ namespace cor3ntin::encoding::details {
             OSDEBCDICDF041 = 117,
             ISO115481 = 118,
             KZ1048 = 119,
-            Unicode = 1000,
+            UCS2 = 1000,
             UCS4 = 1001,
             UnicodeASCII = 1002,
             UnicodeLatin1 = 1003,
@@ -207,6 +212,7 @@ namespace cor3ntin::encoding::details {
             UTF32BE = 1018,
             UTF32LE = 1019,
             BOCU1 = 1020,
+            UTF7IMAP = 1021,
             Windows30Latin1 = 2000,
             Windows31Latin1 = 2001,
             Windows31Latin2 = 2002,
@@ -845,6 +851,8 @@ namespace cor3ntin::encoding::details {
             { 1020, "BOCU-1" },
             { 1020, "csBOCU-1" },
             { 1020, "csBOCU1" },
+            { 1021, "UTF-7-IMAP" },
+            { 1021, "csUTF7IMAP" },
             { 2000, "ISO-8859-1-Windows-3.0-Latin-1" },
             { 2000, "csWindows30Latin1" },
             { 2001, "ISO-8859-1-Windows-3.1-Latin-1" },
@@ -1687,7 +1695,7 @@ namespace cor3ntin::encoding::details {
             return do_compare({"KZ-1048","RK1048","STRK1048-2002","csKZ1048"}, name);
         }
         
-        if constexpr(id_ == details::id::Unicode) {
+        if constexpr(id_ == details::id::UCS2) {
             return do_compare({"ISO-10646-UCS-2","csUnicode"}, name);
         }
         
@@ -1769,6 +1777,10 @@ namespace cor3ntin::encoding::details {
         
         if constexpr(id_ == details::id::BOCU1) {
             return do_compare({"BOCU-1","csBOCU-1","csBOCU1"}, name);
+        }
+        
+        if constexpr(id_ == details::id::UTF7IMAP) {
+            return do_compare({"UTF-7-IMAP","csUTF7IMAP"}, name);
         }
         
         if constexpr(id_ == details::id::Windows30Latin1) {
@@ -2430,6 +2442,7 @@ struct text_encoding {
 #include <string_view>
 #include <fstream>
 #include <streambuf>
+#include <span>
 
 #ifndef H_COR3NTIN_ENCODINGS_HPP
 #include "encodings_generated.hpp"
@@ -2445,6 +2458,11 @@ struct text_encoding {
 #ifndef H_COR3NTIN_ENCODINGS_HPP
 #include "encodings_windows.hpp"
 #endif
+#endif
+
+#ifdef __APPLE__
+#include <sys/sysctl.h>
+#include <sys/types.h>
 #endif
 
 namespace cor3ntin::encoding {
@@ -2662,7 +2680,7 @@ private:
 
 inline text_encoding text_encoding::environment() noexcept{
     static text_encoding encoding = []() -> text_encoding{
-#ifdef _WIN32
+#if defined(_WIN32)
         auto cp = GetACP();
         text_encoding e;
         e.mib_ = details::mib_from_page(cp);
@@ -2672,12 +2690,8 @@ inline text_encoding text_encoding::environment() noexcept{
         auto make_locale = [](const char* name) {
             return  newlocale(LC_CTYPE_MASK, name, (locale_t)0);
         };
-        auto __get_locale = [&]() {
-            std::string filename = "/proc/" +std::to_string(getpid()) +"/environ";
-            std::ifstream file(filename);
-            if(!file)
-                return make_locale("");
-            std::string buffer{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
+
+        auto extract_locale = [&](std::span<const char> buffer) {
             // https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_02
             for(auto KEY : {"LC_ALL=", "LC_CTYPE=", "LANG="}) {
                 const auto n = strlen(KEY);
@@ -2691,11 +2705,50 @@ inline text_encoding text_encoding::environment() noexcept{
                         if(loc)
                             return loc;
                     }
-                    pos += entry_size +1;
-                    if(!entry)break;
+                    pos += entry_size + 1;
                 }
             }
             return make_locale("");
+        };
+
+        auto __get_locale = [&]() {
+
+        std::string buffer;
+#ifdef __APPLE__
+            int mib[] = {CTL_KERN, KERN_PROCARGS2, getpid()};
+            std::size_t args_size;
+            int res = sysctl(mib, 3, nullptr, &args_size, nullptr, 0);
+            if(res)
+                return make_locale("");
+            args_size ++;
+            buffer.resize(args_size);
+            res = sysctl(mib, 3, buffer.data(), &args_size, nullptr, 0);
+            if(res)
+                return make_locale("");
+            if(args_size < sizeof(int))
+                return make_locale("");
+            int argc;
+            memcpy(&argc, buffer.data(), sizeof(argc));
+            std::string_view args(buffer.data(), buffer.size());
+            // Get rid of argc
+            args.remove_prefix(sizeof(int));
+            // Get rid of the process name and all the args
+            for(int i = 0; i < argc; ++i) {
+                auto pos = args.find('\0');
+                if(pos == std::string::npos)
+                    return make_locale("");
+                args.remove_prefix(pos + 1);
+            }
+            auto pos = args.find_first_not_of('\0');
+            args.remove_prefix(pos);
+            return extract_locale(std::span{args.data(), args.size()});
+#endif
+            std::string filename = "/proc/" +std::to_string(getpid()) +"/environ";
+            std::ifstream file(filename);
+            if(!file)
+                return make_locale("");
+            buffer = std::string {std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
+            return extract_locale(buffer);
         };
         details::scoped_locale loc = __get_locale();
         if(!loc)
@@ -2718,7 +2771,7 @@ inline text_encoding text_encoding::wide_environment() noexcept {
     // GLIBC is always UCS4
     return
         sizeof(wchar_t) == 2 ?
-    text_encoding("ISO-10646-UCS-2", details::id::Unicode):
+    text_encoding("ISO-10646-UCS-2", details::id::UCS2):
     text_encoding("ISO-10646-UCS-4", details::id::UCS4);
 #endif
 }
@@ -2780,7 +2833,7 @@ consteval text_encoding text_encoding::wide_literal() {
 return text_encoding(__clang_wide_literal_encoding__,
         details::find_encoding(__clang_wide_literal_encoding__));
 #elif defined(__GNUC__) || defined(__clang__)
-    return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", details::id::Unicode) : text_encoding("ISO-10646-UCS-4", details::id::UCS4);
+    return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", details::id::UCS2) : text_encoding("ISO-10646-UCS-4", details::id::UCS4);
 #else
     return {};
 #endif
@@ -2789,4 +2842,5 @@ return text_encoding(__clang_wide_literal_encoding__,
 
 
 }
+
 #endif
