@@ -2343,7 +2343,6 @@ constexpr bool encoding_is(const char* name) {
 }
 }    // namespace cor3ntin::encoding::details
 
-
 #ifndef H_COR3NTIN_ENCODINGS_HPP
 #    include "encodings_generated.hpp"
 #endif
@@ -2811,7 +2810,7 @@ inline text_encoding text_encoding::environment() noexcept {
             args.remove_prefix(pos);
             return extract_locale(std::span{args.data(), args.size()});
 #    endif
-            std::string filename = "/proc/" + std::to_string(getpid()) + "/environ";
+            std::string filename = "/proc/self/environ";
             std::ifstream file(filename);
             if(!file)
                 return make_locale("");
@@ -2910,5 +2909,4 @@ consteval text_encoding text_encoding::wide_literal() {
 
 
 }    // namespace cor3ntin::encoding
-
 #endif
