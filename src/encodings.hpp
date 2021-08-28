@@ -3,36 +3,6 @@
 #include <cstring>
 #include <unistd.h>
 #define NOMINMAX
-/*
-struct text_encoding {
-    enum id {
-        other = 1,
-        unknown = 2,
-        ASCII = 3,
-        //...
-        reserved = 3000
-    }
-
-    constexpr text_encoding() noexcept;
-    constexpr text_encoding(std::string name, int mib = id::other);
-
-    constexpr int mib() const noexcept;
-    const char* name() const noexcept;
-    auto aliases() const noexcept;
-
-    static consteval text_encoding literal();
-    static consteval text_encoding wide_literal();
-
-    static text_encoding system();
-    static text_encoding wide_system();
-
-    static text_encoding for_locale(const std::locale&);
-    static text_encoding wide_for_locale(const std::locale&);
-
-    bool operator==(const text_encoding & other);
-};
-*/
-
 
 #include <algorithm>
 #include <array>
@@ -67,61 +37,6 @@ namespace cor3ntin::encoding {
 
 namespace details {
 
-#ifdef _MSC_VER
-    // FUNCTION TEMPLATE lower_bound
-    template<class _FwdIt, class _Ty, class _Pr>
-    _NODISCARD constexpr _FwdIt lower_bound(_FwdIt _First, const _FwdIt _Last, const _Ty& _Val,
-                                            _Pr _Pred) {
-        using namespace std;
-        // find first element not before _Val, using _Pred
-        _Adl_verify_range(_First, _Last);
-        auto _UFirst = _Get_unwrapped(_First);
-        std::_Iter_diff_t<_FwdIt> _Count = _STD distance(_UFirst, _Get_unwrapped(_Last));
-
-        while(0 < _Count) {    // divide and conquer, find half that contains answer
-            const _Iter_diff_t<_FwdIt> _Count2 = _Count >> 1;    // TRANSITION, VSO#433486
-            const auto _UMid = _STD next(_UFirst, _Count2);
-            if(_Pred(*_UMid, _Val)) {    // try top half
-                _UFirst = _Next_iter(_UMid);
-                _Count -= _Count2 + 1;
-            } else {
-                _Count = _Count2;
-            }
-        }
-
-        _Seek_wrapped(_First, _UFirst);
-        return _First;
-    }
-    template<class _InIt, class _Diff, class _OutIt>
-    constexpr _OutIt copy_n(_InIt _First, _Diff _Count_raw,
-                            _OutIt _Dest) {    // copy [_First, _First + _Count) to [_Dest, ...)
-        using namespace std;
-        _Algorithm_int_t<_Diff> _Count = _Count_raw;
-        if(0 < _Count) {
-            auto _UFirst = _Get_unwrapped_n(_First, _Count);
-            auto _UDest = _Get_unwrapped_n(_Dest, _Count);
-            for(;;) {
-                *_UDest = *_UFirst;
-                ++_UDest;
-                --_Count;
-                if(_Count == 0) {    // note that we avoid an extra ++_First here to allow
-                                     // istream_iterator to work, see LWG#2471
-                    break;
-                }
-
-                ++_UFirst;
-            }
-            _Seek_wrapped(_Dest, _UDest);
-        }
-
-        return _Dest;
-    }
-    namespace alg = details;
-#else
-    namespace alg = std;
-#endif    // def _MSC_VER
-
-
     constexpr details::id find_encoding(std::string_view name) {
         if(name.empty())
             return details::id::unknown;
@@ -145,7 +60,7 @@ namespace details {
             constexpr iterator() = default;
 
             constexpr iterator(int mib) : mib(mib) {
-                d = alg::lower_bound(std::begin(data), std::end(data), mib,
+                d = std::lower_bound(std::begin(data), std::end(data), mib,
                                      [](const enc_data& d, int mib) { return d.mib < mib; });
             }
 
@@ -216,7 +131,7 @@ private:
         }
         if(!name.empty()) {
             std::size_t s = std::min(name.size(), std::size_t(63));
-            details::alg::copy_n(name.data(), s, std::begin(name_));
+            details::std::copy_n(name.data(), s, std::begin(name_));
             name_[s] = '\0';
         }
     }
