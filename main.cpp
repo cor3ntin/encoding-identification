@@ -1,4 +1,4 @@
-#include "single.hpp"
+#include <cor3ntin/encodings_detection.hpp>
 #include <cstdlib>
 #include <iostream>
 
