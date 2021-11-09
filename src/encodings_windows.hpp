@@ -115,7 +115,7 @@ constexpr encoding_windows_data win_mapping[] = {{037, id::IBM037},
                                                  {65000, id::UTF7},
                                                  {65001, id::UTF8}};
 
-inline id mib_from_page(int page) {
+constexpr id mib_from_page(int page) {
     for(const auto& e : win_mapping) {
         if(e.cp == page)
             return e.id;

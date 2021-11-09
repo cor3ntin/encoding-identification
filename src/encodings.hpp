@@ -1,16 +1,20 @@
 #pragma once
 #include <cstddef>
 #include <cstring>
+#include <iterator>
+#ifndef _WIN32
 #include <unistd.h>
+#else
 #define NOMINMAX
+#endif
 
 #include <algorithm>
 #include <array>
 #include <locale>
 #include <string_view>
 #include <fstream>
-#include <streambuf>
 #include <span>
+#include <ranges>
 
 #ifndef H_COR3NTIN_ENCODINGS_HPP
 #    include "encodings_generated.hpp"
@@ -37,30 +41,42 @@ namespace cor3ntin::encoding {
 
 namespace details {
 
+    constexpr const char* normalize_utf(const char* name) {
+        if(!name)
+            return nullptr;
+        if (compare_name(name, "UTF-16LE") || compare_name(name, "UTF-16BE"))
+            return "UTF-16";
+        if (compare_name(name, "UTF-32LE") || compare_name(name, "UTF-32BE"))
+            return "UTF-32";
+        return name;
+    }
+
     constexpr details::id find_encoding(std::string_view name) {
         if(name.empty())
             return details::id::unknown;
-        for(auto&& e = std::begin(data); e != std::end(data); e++) {
+        for(auto&& e = std::begin(details::data); e != std::end(details::data); e++) {
             if(compare_name(e->name, name))
                 return details::id(e->mib);
         }
         return details::id::unknown;
     }
 
-    struct encoding_alias_view {
+    struct encoding_alias_view : public std::ranges::view_interface<encoding_alias_view>{
 
+        // TODO: remove
+        constexpr encoding_alias_view() = default;
         constexpr encoding_alias_view(int mib) : mib(mib){};
-        struct sentinel {};
         struct iterator {
             using value_type = const char*;
             using reference = const char*;
-            using iterator_category = std::forward_iterator_tag;
+            using iterator_category = std::random_access_iterator_tag;
             using difference_type = std::ptrdiff_t;
 
             constexpr iterator() = default;
+            constexpr iterator(const iterator&) = default;
 
             constexpr iterator(int mib) : mib(mib) {
-                d = std::lower_bound(std::begin(data), std::end(data), mib,
+                d = std::lower_bound(std::begin(details::data), std::end(details::data), mib,
                                      [](const enc_data& d, int mib) { return d.mib < mib; });
             }
 
@@ -68,52 +84,93 @@ namespace details {
                 return d->name;
             }
 
-            constexpr iterator& operator++(int) {
+            constexpr const char* operator[](difference_type n) const {
+                return (d + n)->name;
+            }
+
+            constexpr iterator& operator++() {
                 d++;
                 return *this;
             }
 
-            constexpr iterator operator++() {
+            constexpr iterator operator++(int) {
                 auto c = *this;
                 d++;
                 return c;
             }
 
-            constexpr bool operator==(sentinel) const {
-                return !d || d->mib != mib;
+            constexpr iterator& operator--() {
+                d--;
+                return *this;
             }
-            constexpr bool operator!=(sentinel) const {
-                return d && d->mib == mib;
+
+            constexpr iterator operator--(int) {
+                auto c = *this;
+                d--;
+                return c;
             }
+
+            constexpr iterator& operator+=(difference_type n) {
+                d+=n;
+                return *this;
+            }
+            constexpr iterator& operator-=(difference_type n) {
+                d-=n;
+                return *this;
+
+            }
+
             constexpr bool operator==(iterator it) const {
-                return d == it.d;
+                return mib == it.mib && d == it.d;
             }
-            constexpr bool operator!=(iterator it) const {
-                return !(*this == it);
+
+            constexpr auto operator<=>(iterator it) const {
+                if(mib <=> it.mib == 0)
+                    return mib <=> it.mib;
+                return d <=> it.d;
+            }
+
+            friend constexpr iterator operator+(const iterator& it, difference_type n) {
+                return iterator{it} += n;
+            }
+            friend constexpr iterator operator+(difference_type n, const iterator& it) {
+                return iterator{it} += n;
+            }
+            friend constexpr iterator operator-(const iterator& it, difference_type n) {
+                return iterator{it} -= n;
+            }
+
+            friend constexpr difference_type operator-(const iterator& a, const iterator& b) {
+                return a.d - b.d;
             }
 
         private:
             const enc_data* d = nullptr;
-
-        private:
-            int mib = 0;
+            int mib = -1;
+            friend class encoding_alias_view;
         };
 
         constexpr iterator begin() const {
             return iterator{mib};
         }
-        constexpr sentinel end() const {
-            return {};
+        constexpr iterator end() const {
+            auto it = iterator{mib};
+            while(it.d && it.d->mib == mib)
+                ++it;
+            return it;
         }
 
     private:
-        int mib;
+        int mib = -1;
     };
 }    // namespace details
 
 
 struct text_encoding {
     using id = details::id;
+    using alias_view = details::encoding_alias_view;
+
+
     constexpr text_encoding(std::string_view name) noexcept :
         text_encoding(name, details::find_encoding(name)) {}
     constexpr text_encoding(id mib) noexcept : text_encoding({}, mib) {}
@@ -131,7 +188,7 @@ private:
         }
         if(!name.empty()) {
             std::size_t s = std::min(name.size(), std::size_t(63));
-            details::std::copy_n(name.data(), s, std::begin(name_));
+            std::copy_n(name.data(), s, std::begin(name_));
             name_[s] = '\0';
         }
     }
@@ -148,8 +205,8 @@ public:
         return nullptr;
     }
 
-    constexpr details::encoding_alias_view aliases() const noexcept {
-        return details::encoding_alias_view(int(mib_));
+    constexpr alias_view aliases() const noexcept {
+        return alias_view(int(mib_));
     }
 
 
@@ -267,7 +324,7 @@ inline text_encoding text_encoding::environment() noexcept {
         details::scoped_locale loc = __get_locale();
         if(!loc)
             return {};
-        const char* name = nl_langinfo_l(CODESET, loc);
+        const char* name = details::normalize_utf(nl_langinfo_l(CODESET, loc));
         if(!name)
             return {};
         const id mib = details::find_encoding(name);
@@ -280,7 +337,7 @@ inline text_encoding text_encoding::environment() noexcept {
 inline text_encoding text_encoding::wide_environment() noexcept {
 #ifdef _WIN32
     // windows is always UTF-16LE
-    return text_encoding("UTF-16LE", details::id::UTF16LE);
+    return text_encoding("UTF-16", details::id::UTF16);
 #else
     // GLIBC is always UCS4
     return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", details::id::UCS2)
@@ -292,10 +349,10 @@ inline text_encoding text_encoding::wide_environment() noexcept {
 template<text_encoding::id id_>
 bool text_encoding::environment_is() noexcept {
 #ifdef _WIN32
-    return system().mib() == id_;
+    return environment().mib() == id_;
 #else
     details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
-    const char* name = nl_langinfo_l(CODESET, loc);
+    const char* name = details::normalize_utf(nl_langinfo_l(CODESET, loc));
     return details::encoding_is<id_>(name);
 #endif
 }
@@ -309,7 +366,7 @@ inline text_encoding text_encoding::for_locale(const std::locale& l) noexcept {
 #ifdef _WIN32
 #else
     details::scoped_locale loc = newlocale(LC_CTYPE, l.name().c_str(), 0);
-    const char* name = nl_langinfo_l(CODESET, loc);
+    const char* name = details::normalize_utf(nl_langinfo_l(CODESET, loc));
     const id mib = details::find_encoding(name);
     return text_encoding(name, mib);
 #endif
@@ -322,13 +379,18 @@ inline text_encoding text_encoding::wide_for_locale(const std::locale&) noexcept
 //#ifdef __cpp_consteval
 consteval text_encoding text_encoding::literal() {
 #ifdef __GNUC_EXECUTION_CHARSET_NAME
-    return text_encoding(__GNUC_EXECUTION_CHARSET_NAME,
-                         details::find_encoding(__GNUC_EXECUTION_CHARSET_NAME));
+    return text_encoding(details::normalize_utf(__GNUC_EXECUTION_CHARSET_NAME),
+                         details::find_encoding(details::normalize_utf(__GNUC_EXECUTION_CHARSET_NAME)));
 #elif defined(__clang_literal_encoding__)
-    return text_encoding(__clang_literal_encoding__,
-                         details::find_encoding(__clang_literal_encoding__));
+    return text_encoding(details::normalize_utf(__clang_literal_encoding__),
+                         details::find_encoding(details::normalize_utf(__clang_literal_encoding__)));
 #elif defined(__clang__)
     return text_encoding("UTF-8", details::id::UTF8);
+#elif defined(_MSVC_EXECUTION_CHARACTER_SET)
+    text_encoding e;
+    e.mib_ = details::mib_from_page(_MSVC_EXECUTION_CHARACTER_SET);
+    e.m_code_page = _MSVC_EXECUTION_CHARACTER_SET;
+    return e;
 #else
     return {};
 #endif
@@ -339,14 +401,14 @@ consteval text_encoding text_encoding::wide_literal() {
     // WINDOWS is always UTF-16
     return text_encoding("UTF-16", details::id::UTF16);
 #elif defined(__GNUC_WIDE_EXECUTION_CHARSET_NAME)
-    return text_encoding(__GNUC_WIDE_EXECUTION_CHARSET_NAME,
-                         details::find_encoding(__GNUC_WIDE_EXECUTION_CHARSET_NAME));
+    return text_encoding(details::normalize_utf(__GNUC_WIDE_EXECUTION_CHARSET_NAME),
+                         details::find_encoding(details::normalize_utf(__GNUC_WIDE_EXECUTION_CHARSET_NAME)));
 #elif defined(__clang_wide_literal_encoding__)
-    return text_encoding(__clang_wide_literal_encoding__,
-                         details::find_encoding(__clang_wide_literal_encoding__));
+    return text_encoding(details::normalize_utf(__clang_wide_literal_encoding__),
+                         details::find_encoding(details::normalize_utf(__clang_wide_literal_encoding__)));
 #elif defined(__GNUC__) || defined(__clang__)
-    return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", details::id::UCS2)
-                                : text_encoding("ISO-10646-UCS-4", details::id::UCS4);
+    return sizeof(wchar_t) == 2 ? text_encoding("UTF-16", details::id::UTF16)
+                                : text_encoding("UTF-32", details::id::UTF32);
 #else
     return {};
 #endif
@@ -355,3 +417,12 @@ consteval text_encoding text_encoding::wide_literal() {
 
 
 }    // namespace cor3ntin::encoding
+
+namespace std::ranges {
+template <>
+inline constexpr bool enable_borrowed_range<cor3ntin::encoding::text_encoding::alias_view> = true;
+}
+
+static_assert(std::ranges::common_range<cor3ntin::encoding::text_encoding::alias_view>);
+static_assert(std::ranges::view<cor3ntin::encoding::text_encoding::alias_view>);
+static_assert(std::ranges::random_access_range<cor3ntin::encoding::text_encoding::alias_view>);

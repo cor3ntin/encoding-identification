@@ -39,7 +39,7 @@ constexpr char tolower(const char c) {
 }
 
 
-inline constexpr bool compare_name(std::string_view a, std::string_view b) noexcept {
+constexpr bool compare_name(std::string_view a, std::string_view b) noexcept {
     if(a.empty() || b.empty())
         return false;
     auto la = a.begin();

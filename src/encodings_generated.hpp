@@ -269,7 +269,6 @@ namespace cor3ntin::encoding::details {
             int mib;
             const char* name;
         };
-        constexpr bool compare_name(const char* a, const char* b) noexcept;
         constexpr inline enc_data data[] = {
             { 3, "US-ASCII" },
             { 3, "ANSI_X3.4-1968" },
@@ -1162,1040 +1161,1041 @@ namespace cor3ntin::encoding::details {
         };
     template <id id_>
     constexpr bool encoding_is(const char* name) {
-        
+
         if constexpr(id_ == details::id::ASCII) {
             return do_compare({"US-ASCII","ANSI_X3.4-1968","ANSI_X3.4-1986","IBM367","ISO646-US","ISO_646.irv:1991","cp367","csASCII","iso-ir-6","us"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatin1) {
             return do_compare({"ISO-8859-1","ISO_8859-1:1987","CP819","IBM819","ISO_8859-1","csISOLatin1","iso-ir-100","l1","latin1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatin2) {
             return do_compare({"ISO-8859-2","ISO_8859-2:1987","ISO_8859-2","csISOLatin2","iso-ir-101","l2","latin2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatin3) {
             return do_compare({"ISO-8859-3","ISO_8859-3:1988","ISO_8859-3","csISOLatin3","iso-ir-109","l3","latin3"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatin4) {
             return do_compare({"ISO-8859-4","ISO_8859-4:1988","ISO_8859-4","csISOLatin4","iso-ir-110","l4","latin4"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatinCyrillic) {
             return do_compare({"ISO-8859-5","ISO_8859-5:1988","ISO_8859-5","csISOLatinCyrillic","cyrillic","iso-ir-144"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatinArabic) {
             return do_compare({"ISO-8859-6","ISO_8859-6:1987","ASMO-708","ECMA-114","ISO_8859-6","arabic","csISOLatinArabic","iso-ir-127"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatinGreek) {
             return do_compare({"ISO-8859-7","ISO_8859-7:1987","ECMA-118","ELOT_928","ISO_8859-7","csISOLatinGreek","greek","greek8","iso-ir-126"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatinHebrew) {
             return do_compare({"ISO-8859-8","ISO_8859-8:1988","ISO_8859-8","csISOLatinHebrew","hebrew","iso-ir-138"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatin5) {
             return do_compare({"ISO-8859-9","ISO_8859-9:1989","ISO_8859-9","csISOLatin5","iso-ir-148","l5","latin5"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOLatin6) {
             return do_compare({"ISO-8859-10","ISO_8859-10:1992","csISOLatin6","iso-ir-157","l6","latin6"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISOTextComm) {
             return do_compare({"ISO_6937-2-add","csISOTextComm","iso-ir-142"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HalfWidthKatakana) {
             return do_compare({"JIS_X0201","X0201","csHalfWidthKatakana"}, name);
         }
-        
+
         if constexpr(id_ == details::id::JISEncoding) {
             return do_compare({"JIS_Encoding","csJISEncoding"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ShiftJIS) {
             return do_compare({"Shift_JIS","MS_Kanji","csShiftJIS"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EUCPkdFmtJapanese) {
             return do_compare({"EUC-JP","Extended_UNIX_Code_Packed_Format_for_Japanese","csEUCPkdFmtJapanese"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EUCFixWidJapanese) {
             return do_compare({"Extended_UNIX_Code_Fixed_Width_for_Japanese","csEUCFixWidJapanese"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO4UnitedKingdom) {
             return do_compare({"BS_4730","ISO646-GB","csISO4UnitedKingdom","gb","iso-ir-4","uk"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO11SwedishForNames) {
             return do_compare({"SEN_850200_C","ISO646-SE2","csISO11SwedishForNames","iso-ir-11","se2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO15Italian) {
             return do_compare({"IT","ISO646-IT","csISO15Italian","iso-ir-15"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO17Spanish) {
             return do_compare({"ES","ISO646-ES","csISO17Spanish","iso-ir-17"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO21German) {
             return do_compare({"DIN_66003","ISO646-DE","csISO21German","de","iso-ir-21"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO60DanishNorwegian) {
             return do_compare({"NS_4551-1","ISO646-NO","csISO60DanishNorwegian","csISO60Norwegian1","iso-ir-60","no"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO69French) {
             return do_compare({"NF_Z_62-010","ISO646-FR","csISO69French","fr","iso-ir-69"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO10646UTF1) {
             return do_compare({"ISO-10646-UTF-1","csISO10646UTF1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO646basic1983) {
             return do_compare({"ISO_646.basic:1983","csISO646basic1983","ref"}, name);
         }
-        
+
         if constexpr(id_ == details::id::INVARIANT) {
             return do_compare({"INVARIANT","csINVARIANT"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO2IntlRefVersion) {
             return do_compare({"ISO_646.irv:1983","csISO2IntlRefVersion","irv","iso-ir-2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::NATSSEFI) {
             return do_compare({"NATS-SEFI","csNATSSEFI","iso-ir-8-1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::NATSSEFIADD) {
             return do_compare({"NATS-SEFI-ADD","csNATSSEFIADD","iso-ir-8-2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::NATSDANO) {
             return do_compare({"NATS-DANO","csNATSDANO","iso-ir-9-1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::NATSDANOADD) {
             return do_compare({"NATS-DANO-ADD","csNATSDANOADD","iso-ir-9-2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO10Swedish) {
             return do_compare({"SEN_850200_B","FI","ISO646-FI","ISO646-SE","csISO10Swedish","iso-ir-10","se"}, name);
         }
-        
+
         if constexpr(id_ == details::id::KSC56011987) {
             return do_compare({"KS_C_5601-1987","KSC_5601","KS_C_5601-1989","csKSC56011987","iso-ir-149","korean"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO2022KR) {
             return do_compare({"ISO-2022-KR","csISO2022KR"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EUCKR) {
             return do_compare({"EUC-KR","csEUCKR"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO2022JP) {
             return do_compare({"ISO-2022-JP","csISO2022JP"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO2022JP2) {
             return do_compare({"ISO-2022-JP-2","csISO2022JP2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO13JISC6220jp) {
             return do_compare({"JIS_C6220-1969-jp","JIS_C6220-1969","csISO13JISC6220jp","iso-ir-13","katakana","x0201-7"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO14JISC6220ro) {
             return do_compare({"JIS_C6220-1969-ro","ISO646-JP","csISO14JISC6220ro","iso-ir-14","jp"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO16Portuguese) {
             return do_compare({"PT","ISO646-PT","csISO16Portuguese","iso-ir-16"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO18Greek7Old) {
             return do_compare({"greek7-old","csISO18Greek7Old","iso-ir-18"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO19LatinGreek) {
             return do_compare({"latin-greek","csISO19LatinGreek","iso-ir-19"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO25French) {
             return do_compare({"NF_Z_62-010_(1973)","ISO646-FR1","csISO25French","iso-ir-25"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO27LatinGreek1) {
             return do_compare({"Latin-greek-1","csISO27LatinGreek1","iso-ir-27"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO5427Cyrillic) {
             return do_compare({"ISO_5427","csISO5427Cyrillic","iso-ir-37"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO42JISC62261978) {
             return do_compare({"JIS_C6226-1978","csISO42JISC62261978","iso-ir-42"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO47BSViewdata) {
             return do_compare({"BS_viewdata","csISO47BSViewdata","iso-ir-47"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO49INIS) {
             return do_compare({"INIS","csISO49INIS","iso-ir-49"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO50INIS8) {
             return do_compare({"INIS-8","csISO50INIS8","iso-ir-50"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO51INISCyrillic) {
             return do_compare({"INIS-cyrillic","csISO51INISCyrillic","iso-ir-51"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO54271981) {
             return do_compare({"ISO_5427:1981","ISO5427Cyrillic1981","csISO54271981","iso-ir-54"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO5428Greek) {
             return do_compare({"ISO_5428:1980","csISO5428Greek","iso-ir-55"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO57GB1988) {
             return do_compare({"GB_1988-80","ISO646-CN","cn","csISO57GB1988","iso-ir-57"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO58GB231280) {
             return do_compare({"GB_2312-80","chinese","csISO58GB231280","iso-ir-58"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO61Norwegian2) {
             return do_compare({"NS_4551-2","ISO646-NO2","csISO61Norwegian2","iso-ir-61","no2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO70VideotexSupp1) {
             return do_compare({"videotex-suppl","csISO70VideotexSupp1","iso-ir-70"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO84Portuguese2) {
             return do_compare({"PT2","ISO646-PT2","csISO84Portuguese2","iso-ir-84"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO85Spanish2) {
             return do_compare({"ES2","ISO646-ES2","csISO85Spanish2","iso-ir-85"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO86Hungarian) {
             return do_compare({"MSZ_7795.3","ISO646-HU","csISO86Hungarian","hu","iso-ir-86"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO87JISX0208) {
             return do_compare({"JIS_C6226-1983","JIS_X0208-1983","csISO87JISX0208","iso-ir-87","x0208"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO88Greek7) {
             return do_compare({"greek7","csISO88Greek7","iso-ir-88"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO89ASMO449) {
             return do_compare({"ASMO_449","ISO_9036","arabic7","csISO89ASMO449","iso-ir-89"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO90) {
             return do_compare({"iso-ir-90","csISO90"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO91JISC62291984a) {
             return do_compare({"JIS_C6229-1984-a","csISO91JISC62291984a","iso-ir-91","jp-ocr-a"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO92JISC62991984b) {
             return do_compare({"JIS_C6229-1984-b","ISO646-JP-OCR-B","csISO92JISC62991984b","iso-ir-92","jp-ocr-b"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO93JIS62291984badd) {
             return do_compare({"JIS_C6229-1984-b-add","csISO93JIS62291984badd","iso-ir-93","jp-ocr-b-add"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO94JIS62291984hand) {
             return do_compare({"JIS_C6229-1984-hand","csISO94JIS62291984hand","iso-ir-94","jp-ocr-hand"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO95JIS62291984handadd) {
             return do_compare({"JIS_C6229-1984-hand-add","csISO95JIS62291984handadd","iso-ir-95","jp-ocr-hand-add"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO96JISC62291984kana) {
             return do_compare({"JIS_C6229-1984-kana","csISO96JISC62291984kana","iso-ir-96"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO2033) {
             return do_compare({"ISO_2033-1983","csISO2033","e13b","iso-ir-98"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO99NAPLPS) {
             return do_compare({"ANSI_X3.110-1983","CSA_T500-1983","NAPLPS","csISO99NAPLPS","iso-ir-99"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO102T617bit) {
             return do_compare({"T.61-7bit","csISO102T617bit","iso-ir-102"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO103T618bit) {
             return do_compare({"T.61-8bit","T.61","csISO103T618bit","iso-ir-103"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO111ECMACyrillic) {
             return do_compare({"ECMA-cyrillic","KOI8-E","csISO111ECMACyrillic","iso-ir-111"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO121Canadian1) {
             return do_compare({"CSA_Z243.4-1985-1","ISO646-CA","ca","csISO121Canadian1","csa7-1","csa71","iso-ir-121"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO122Canadian2) {
             return do_compare({"CSA_Z243.4-1985-2","ISO646-CA2","csISO122Canadian2","csa7-2","csa72","iso-ir-122"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO123CSAZ24341985gr) {
             return do_compare({"CSA_Z243.4-1985-gr","csISO123CSAZ24341985gr","iso-ir-123"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO88596E) {
             return do_compare({"ISO-8859-6-E","ISO_8859-6-E","csISO88596E"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO88596I) {
             return do_compare({"ISO-8859-6-I","ISO_8859-6-I","csISO88596I"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO128T101G2) {
             return do_compare({"T.101-G2","csISO128T101G2","iso-ir-128"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO88598E) {
             return do_compare({"ISO-8859-8-E","ISO_8859-8-E","csISO88598E"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO88598I) {
             return do_compare({"ISO-8859-8-I","ISO_8859-8-I","csISO88598I"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO139CSN369103) {
             return do_compare({"CSN_369103","csISO139CSN369103","iso-ir-139"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO141JUSIB1002) {
             return do_compare({"JUS_I.B1.002","ISO646-YU","csISO141JUSIB1002","iso-ir-141","js","yu"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO143IECP271) {
             return do_compare({"IEC_P27-1","csISO143IECP271","iso-ir-143"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO146Serbian) {
             return do_compare({"JUS_I.B1.003-serb","csISO146Serbian","iso-ir-146","serbian"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO147Macedonian) {
             return do_compare({"JUS_I.B1.003-mac","csISO147Macedonian","iso-ir-147","macedonian"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO150) {
             return do_compare({"greek-ccitt","csISO150","csISO150GreekCCITT","iso-ir-150"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO151Cuba) {
             return do_compare({"NC_NC00-10:81","ISO646-CU","csISO151Cuba","cuba","iso-ir-151"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO6937Add) {
             return do_compare({"ISO_6937-2-25","csISO6937Add","iso-ir-152"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO153GOST1976874) {
             return do_compare({"GOST_19768-74","ST_SEV_358-88","csISO153GOST1976874","iso-ir-153"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO8859Supp) {
             return do_compare({"ISO_8859-supp","csISO8859Supp","iso-ir-154","latin1-2-5"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO10367Box) {
             return do_compare({"ISO_10367-box","csISO10367Box","iso-ir-155"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO158Lap) {
             return do_compare({"latin-lap","csISO158Lap","iso-ir-158","lap"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO159JISX02121990) {
             return do_compare({"JIS_X0212-1990","csISO159JISX02121990","iso-ir-159","x0212"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO646Danish) {
             return do_compare({"DS_2089","DS2089","ISO646-DK","csISO646Danish","dk"}, name);
         }
-        
+
         if constexpr(id_ == details::id::USDK) {
             return do_compare({"us-dk","csUSDK"}, name);
         }
-        
+
         if constexpr(id_ == details::id::DKUS) {
             return do_compare({"dk-us","csDKUS"}, name);
         }
-        
+
         if constexpr(id_ == details::id::KSC5636) {
             return do_compare({"KSC5636","ISO646-KR","csKSC5636"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Unicode11UTF7) {
             return do_compare({"UNICODE-1-1-UTF-7","csUnicode11UTF7"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO2022CN) {
             return do_compare({"ISO-2022-CN","csISO2022CN"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO2022CNEXT) {
             return do_compare({"ISO-2022-CN-EXT","csISO2022CNEXT"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF8) {
             return do_compare({"UTF-8","csUTF8"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO885913) {
             return do_compare({"ISO-8859-13","csISO885913"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO885914) {
             return do_compare({"ISO-8859-14","ISO_8859-14","ISO_8859-14:1998","csISO885914","iso-celtic","iso-ir-199","l8","latin8"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO885915) {
             return do_compare({"ISO-8859-15","ISO_8859-15","Latin-9","csISO885915"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO885916) {
             return do_compare({"ISO-8859-16","ISO_8859-16","ISO_8859-16:2001","csISO885916","iso-ir-226","l10","latin10"}, name);
         }
-        
+
         if constexpr(id_ == details::id::GBK) {
             return do_compare({"GBK","CP936","MS936","csGBK","windows-936"}, name);
         }
-        
+
         if constexpr(id_ == details::id::GB18030) {
             return do_compare({"GB18030","csGB18030"}, name);
         }
-        
+
         if constexpr(id_ == details::id::OSDEBCDICDF0415) {
             return do_compare({"OSD_EBCDIC_DF04_15","csOSDEBCDICDF0415"}, name);
         }
-        
+
         if constexpr(id_ == details::id::OSDEBCDICDF03IRV) {
             return do_compare({"OSD_EBCDIC_DF03_IRV","csOSDEBCDICDF03IRV"}, name);
         }
-        
+
         if constexpr(id_ == details::id::OSDEBCDICDF041) {
             return do_compare({"OSD_EBCDIC_DF04_1","csOSDEBCDICDF041"}, name);
         }
-        
+
         if constexpr(id_ == details::id::ISO115481) {
             return do_compare({"ISO-11548-1","ISO_11548-1","ISO_TR_11548-1","csISO115481"}, name);
         }
-        
+
         if constexpr(id_ == details::id::KZ1048) {
             return do_compare({"KZ-1048","RK1048","STRK1048-2002","csKZ1048"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UCS2) {
             return do_compare({"ISO-10646-UCS-2","csUnicode"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UCS4) {
             return do_compare({"ISO-10646-UCS-4","csUCS4"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeASCII) {
             return do_compare({"ISO-10646-UCS-Basic","csUnicodeASCII"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeLatin1) {
             return do_compare({"ISO-10646-Unicode-Latin1","ISO-10646","csUnicodeLatin1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeJapanese) {
             return do_compare({"ISO-10646-J-1","csUnicodeJapanese"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeIBM1261) {
             return do_compare({"ISO-Unicode-IBM-1261","csUnicodeIBM1261"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeIBM1268) {
             return do_compare({"ISO-Unicode-IBM-1268","csUnicodeIBM1268"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeIBM1276) {
             return do_compare({"ISO-Unicode-IBM-1276","csUnicodeIBM1276"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeIBM1264) {
             return do_compare({"ISO-Unicode-IBM-1264","csUnicodeIBM1264"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UnicodeIBM1265) {
             return do_compare({"ISO-Unicode-IBM-1265","csUnicodeIBM1265"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Unicode11) {
             return do_compare({"UNICODE-1-1","csUnicode11"}, name);
         }
-        
+
         if constexpr(id_ == details::id::SCSU) {
             return do_compare({"SCSU","csSCSU"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF7) {
             return do_compare({"UTF-7","csUTF7"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF16BE) {
             return do_compare({"UTF-16BE","csUTF16BE"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF16LE) {
             return do_compare({"UTF-16LE","csUTF16LE"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF16) {
             return do_compare({"UTF-16","csUTF16"}, name);
         }
-        
+
         if constexpr(id_ == details::id::CESU8) {
             return do_compare({"CESU-8","csCESU-8","csCESU8"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF32) {
             return do_compare({"UTF-32","csUTF32"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF32BE) {
             return do_compare({"UTF-32BE","csUTF32BE"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF32LE) {
             return do_compare({"UTF-32LE","csUTF32LE"}, name);
         }
-        
+
         if constexpr(id_ == details::id::BOCU1) {
             return do_compare({"BOCU-1","csBOCU-1","csBOCU1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::UTF7IMAP) {
             return do_compare({"UTF-7-IMAP","csUTF7IMAP"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Windows30Latin1) {
             return do_compare({"ISO-8859-1-Windows-3.0-Latin-1","csWindows30Latin1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Windows31Latin1) {
             return do_compare({"ISO-8859-1-Windows-3.1-Latin-1","csWindows31Latin1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Windows31Latin2) {
             return do_compare({"ISO-8859-2-Windows-Latin-2","csWindows31Latin2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Windows31Latin5) {
             return do_compare({"ISO-8859-9-Windows-Latin-5","csWindows31Latin5"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HPRoman8) {
             return do_compare({"hp-roman8","csHPRoman8","r8","roman8"}, name);
         }
-        
+
         if constexpr(id_ == details::id::AdobeStandardEncoding) {
             return do_compare({"Adobe-Standard-Encoding","csAdobeStandardEncoding"}, name);
         }
-        
+
         if constexpr(id_ == details::id::VenturaUS) {
             return do_compare({"Ventura-US","csVenturaUS"}, name);
         }
-        
+
         if constexpr(id_ == details::id::VenturaInternational) {
             return do_compare({"Ventura-International","csVenturaInternational"}, name);
         }
-        
+
         if constexpr(id_ == details::id::DECMCS) {
             return do_compare({"DEC-MCS","csDECMCS","dec"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PC850Multilingual) {
             return do_compare({"IBM850","850","cp850","csPC850Multilingual"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PC8DanishNorwegian) {
             return do_compare({"PC8-Danish-Norwegian","csPC8DanishNorwegian"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PC862LatinHebrew) {
             return do_compare({"IBM862","862","cp862","csPC862LatinHebrew"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PC8Turkish) {
             return do_compare({"PC8-Turkish","csPC8Turkish"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBMSymbols) {
             return do_compare({"IBM-Symbols","csIBMSymbols"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBMThai) {
             return do_compare({"IBM-Thai","csIBMThai"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HPLegal) {
             return do_compare({"HP-Legal","csHPLegal"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HPPiFont) {
             return do_compare({"HP-Pi-font","csHPPiFont"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HPMath8) {
             return do_compare({"HP-Math8","csHPMath8"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HPPSMath) {
             return do_compare({"Adobe-Symbol-Encoding","csHPPSMath"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HPDesktop) {
             return do_compare({"HP-DeskTop","csHPDesktop"}, name);
         }
-        
+
         if constexpr(id_ == details::id::VenturaMath) {
             return do_compare({"Ventura-Math","csVenturaMath"}, name);
         }
-        
+
         if constexpr(id_ == details::id::MicrosoftPublishing) {
             return do_compare({"Microsoft-Publishing","csMicrosoftPublishing"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Windows31J) {
             return do_compare({"Windows-31J","csWindows31J"}, name);
         }
-        
+
         if constexpr(id_ == details::id::GB2312) {
             return do_compare({"GB2312","csGB2312"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Big5) {
             return do_compare({"Big5","csBig5"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Macintosh) {
             return do_compare({"macintosh","csMacintosh","mac"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM037) {
             return do_compare({"IBM037","cp037","csIBM037","ebcdic-cp-ca","ebcdic-cp-nl","ebcdic-cp-us","ebcdic-cp-wt"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM038) {
             return do_compare({"IBM038","EBCDIC-INT","cp038","csIBM038"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM273) {
             return do_compare({"IBM273","CP273","csIBM273"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM274) {
             return do_compare({"IBM274","CP274","EBCDIC-BE","csIBM274"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM275) {
             return do_compare({"IBM275","EBCDIC-BR","cp275","csIBM275"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM277) {
             return do_compare({"IBM277","EBCDIC-CP-DK","EBCDIC-CP-NO","csIBM277"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM278) {
             return do_compare({"IBM278","CP278","csIBM278","ebcdic-cp-fi","ebcdic-cp-se"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM280) {
             return do_compare({"IBM280","CP280","csIBM280","ebcdic-cp-it"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM281) {
             return do_compare({"IBM281","EBCDIC-JP-E","cp281","csIBM281"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM284) {
             return do_compare({"IBM284","CP284","csIBM284","ebcdic-cp-es"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM285) {
             return do_compare({"IBM285","CP285","csIBM285","ebcdic-cp-gb"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM290) {
             return do_compare({"IBM290","EBCDIC-JP-kana","cp290","csIBM290"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM297) {
             return do_compare({"IBM297","cp297","csIBM297","ebcdic-cp-fr"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM420) {
             return do_compare({"IBM420","cp420","csIBM420","ebcdic-cp-ar1"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM423) {
             return do_compare({"IBM423","cp423","csIBM423","ebcdic-cp-gr"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM424) {
             return do_compare({"IBM424","cp424","csIBM424","ebcdic-cp-he"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PC8CodePage437) {
             return do_compare({"IBM437","437","cp437","csPC8CodePage437"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM500) {
             return do_compare({"IBM500","CP500","csIBM500","ebcdic-cp-be","ebcdic-cp-ch"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM851) {
             return do_compare({"IBM851","851","cp851","csIBM851"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PCp852) {
             return do_compare({"IBM852","852","cp852","csPCp852"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM855) {
             return do_compare({"IBM855","855","cp855","csIBM855"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM857) {
             return do_compare({"IBM857","857","cp857","csIBM857"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM860) {
             return do_compare({"IBM860","860","cp860","csIBM860"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM861) {
             return do_compare({"IBM861","861","cp-is","cp861","csIBM861"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM863) {
             return do_compare({"IBM863","863","cp863","csIBM863"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM864) {
             return do_compare({"IBM864","cp864","csIBM864"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM865) {
             return do_compare({"IBM865","865","cp865","csIBM865"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM868) {
             return do_compare({"IBM868","CP868","cp-ar","csIBM868"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM869) {
             return do_compare({"IBM869","869","cp-gr","cp869","csIBM869"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM870) {
             return do_compare({"IBM870","CP870","csIBM870","ebcdic-cp-roece","ebcdic-cp-yu"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM871) {
             return do_compare({"IBM871","CP871","csIBM871","ebcdic-cp-is"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM880) {
             return do_compare({"IBM880","EBCDIC-Cyrillic","cp880","csIBM880"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM891) {
             return do_compare({"IBM891","cp891","csIBM891"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM903) {
             return do_compare({"IBM903","cp903","csIBM903"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBBM904) {
             return do_compare({"IBM904","904","cp904","csIBBM904"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM905) {
             return do_compare({"IBM905","CP905","csIBM905","ebcdic-cp-tr"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM918) {
             return do_compare({"IBM918","CP918","csIBM918","ebcdic-cp-ar2"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM1026) {
             return do_compare({"IBM1026","CP1026","csIBM1026"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBMEBCDICATDE) {
             return do_compare({"EBCDIC-AT-DE","csIBMEBCDICATDE"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICATDEA) {
             return do_compare({"EBCDIC-AT-DE-A","csEBCDICATDEA"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICCAFR) {
             return do_compare({"EBCDIC-CA-FR","csEBCDICCAFR"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICDKNO) {
             return do_compare({"EBCDIC-DK-NO","csEBCDICDKNO"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICDKNOA) {
             return do_compare({"EBCDIC-DK-NO-A","csEBCDICDKNOA"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICFISE) {
             return do_compare({"EBCDIC-FI-SE","csEBCDICFISE"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICFISEA) {
             return do_compare({"EBCDIC-FI-SE-A","csEBCDICFISEA"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICFR) {
             return do_compare({"EBCDIC-FR","csEBCDICFR"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICIT) {
             return do_compare({"EBCDIC-IT","csEBCDICIT"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICPT) {
             return do_compare({"EBCDIC-PT","csEBCDICPT"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICES) {
             return do_compare({"EBCDIC-ES","csEBCDICES"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICESA) {
             return do_compare({"EBCDIC-ES-A","csEBCDICESA"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICESS) {
             return do_compare({"EBCDIC-ES-S","csEBCDICESS"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICUK) {
             return do_compare({"EBCDIC-UK","csEBCDICUK"}, name);
         }
-        
+
         if constexpr(id_ == details::id::EBCDICUS) {
             return do_compare({"EBCDIC-US","csEBCDICUS"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Unknown8BiT) {
             return do_compare({"UNKNOWN-8BIT","csUnknown8BiT"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Mnemonic) {
             return do_compare({"MNEMONIC","csMnemonic"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Mnem) {
             return do_compare({"MNEM","csMnem"}, name);
         }
-        
+
         if constexpr(id_ == details::id::VISCII) {
             return do_compare({"VISCII","csVISCII"}, name);
         }
-        
+
         if constexpr(id_ == details::id::VIQR) {
             return do_compare({"VIQR","csVIQR"}, name);
         }
-        
+
         if constexpr(id_ == details::id::KOI8R) {
             return do_compare({"KOI8-R","csKOI8R"}, name);
         }
-        
+
         if constexpr(id_ == details::id::HZGB2312) {
             return do_compare({"HZ-GB-2312"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM866) {
             return do_compare({"IBM866","866","cp866","csIBM866"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PC775Baltic) {
             return do_compare({"IBM775","cp775","csPC775Baltic"}, name);
         }
-        
+
         if constexpr(id_ == details::id::KOI8U) {
             return do_compare({"KOI8-U","csKOI8U"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM00858) {
             return do_compare({"IBM00858","CCSID00858","CP00858","PC-Multilingual-850+euro","csIBM00858"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM00924) {
             return do_compare({"IBM00924","CCSID00924","CP00924","csIBM00924","ebcdic-Latin9--euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01140) {
             return do_compare({"IBM01140","CCSID01140","CP01140","csIBM01140","ebcdic-us-37+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01141) {
             return do_compare({"IBM01141","CCSID01141","CP01141","csIBM01141","ebcdic-de-273+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01142) {
             return do_compare({"IBM01142","CCSID01142","CP01142","csIBM01142","ebcdic-dk-277+euro","ebcdic-no-277+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01143) {
             return do_compare({"IBM01143","CCSID01143","CP01143","csIBM01143","ebcdic-fi-278+euro","ebcdic-se-278+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01144) {
             return do_compare({"IBM01144","CCSID01144","CP01144","csIBM01144","ebcdic-it-280+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01145) {
             return do_compare({"IBM01145","CCSID01145","CP01145","csIBM01145","ebcdic-es-284+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01146) {
             return do_compare({"IBM01146","CCSID01146","CP01146","csIBM01146","ebcdic-gb-285+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01147) {
             return do_compare({"IBM01147","CCSID01147","CP01147","csIBM01147","ebcdic-fr-297+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01148) {
             return do_compare({"IBM01148","CCSID01148","CP01148","csIBM01148","ebcdic-international-500+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM01149) {
             return do_compare({"IBM01149","CCSID01149","CP01149","csIBM01149","ebcdic-is-871+euro"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Big5HKSCS) {
             return do_compare({"Big5-HKSCS","csBig5HKSCS"}, name);
         }
-        
+
         if constexpr(id_ == details::id::IBM1047) {
             return do_compare({"IBM1047","IBM-1047","csIBM1047"}, name);
         }
-        
+
         if constexpr(id_ == details::id::PTCP154) {
             return do_compare({"PTCP154","CP154","Cyrillic-Asian","PT154","csPTCP154"}, name);
         }
-        
+
         if constexpr(id_ == details::id::Amiga1251) {
             return do_compare({"Amiga-1251","Ami-1251","Ami1251","Amiga1251","csAmiga1251"}, name);
         }
-        
+
         if constexpr(id_ == details::id::KOI7switched) {
             return do_compare({"KOI7-switched","csKOI7switched"}, name);
         }
-        
+
         if constexpr(id_ == details::id::BRF) {
             return do_compare({"BRF","csBRF"}, name);
         }
-        
+
         if constexpr(id_ == details::id::TSCII) {
             return do_compare({"TSCII","csTSCII"}, name);
         }
-        
+
         if constexpr(id_ == details::id::CP51932) {
             return do_compare({"CP51932","csCP51932"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows874) {
             return do_compare({"windows-874","cswindows874"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1250) {
             return do_compare({"windows-1250","cswindows1250"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1251) {
             return do_compare({"windows-1251","cswindows1251"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1252) {
             return do_compare({"windows-1252","cswindows1252"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1253) {
             return do_compare({"windows-1253","cswindows1253"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1254) {
             return do_compare({"windows-1254","cswindows1254"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1255) {
             return do_compare({"windows-1255","cswindows1255"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1256) {
             return do_compare({"windows-1256","cswindows1256"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1257) {
             return do_compare({"windows-1257","cswindows1257"}, name);
         }
-        
+
         if constexpr(id_ == details::id::windows1258) {
             return do_compare({"windows-1258","cswindows1258"}, name);
         }
-        
+
         if constexpr(id_ == details::id::TIS620) {
             return do_compare({"TIS-620","ISO-8859-11","csTIS620"}, name);
         }
-        
+
         if constexpr(id_ == details::id::CP50220) {
             return do_compare({"CP50220","csCP50220"}, name);
         }
-        
+
         return false;
     }
 }
+
 

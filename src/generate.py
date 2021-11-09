@@ -15,7 +15,8 @@ namespace cor3ntin::encoding::details {{
             int mib;
             const char* name;
         }};
-        constexpr bool compare_name(const char* a, const char* b) noexcept;
+        constexpr bool compare_name(std::string_view a, std::string_view b) noexcept;
+        constexpr bool do_compare(std::initializer_list<const char*> names, const char* name);
         constexpr inline enc_data data[] = {{
 {}            {{ 0, nullptr }}
         }};
