@@ -2282,7 +2282,7 @@ struct encoding_windows_data {
     int cp;
     id id;
 };
-constexpr encoding_windows_data win_mapping[] = {{037, id::IBM037},
+constexpr encoding_windows_data win_mapping[] = {{ 37, id::IBM037},
                                                  {437, id::PC8CodePage437},
                                                  {500, id::IBM500},
                                                  {708, id::ISOLatinArabic},

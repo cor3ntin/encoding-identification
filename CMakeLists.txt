@@ -10,26 +10,22 @@ add_custom_command(OUTPUT src/encodings_generated.hpp
         ${Python3_EXECUTABLE} generate.py > encodings_generated.hpp
     WORKING_DIRECTORY
         ${CMAKE_SOURCE_DIR}/src
-    BYPRODUCTS
-        src/encodings_generated.hpp
     COMMENT
         "Generating encoding list"
     DEPENDS
         src/generate.py src/character-sets-1.csv)
 
-add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/single.hpp
+add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodings_detection.hpp
     COMMAND
         ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/
     COMMAND
         ${CMAKE_SOURCE_DIR}/singleheader.sh >> ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodings_detection.hpp
     WORKING_DIRECTORY
         ${CMAKE_SOURCE_DIR}/src
-    BYPRODUCTS
-        ${CMAKE_SOURCE_DIR}/generated/cor3ntin/encodings_detection.hpp
     COMMENT
         "Building single header"
     DEPENDS
-        src/encodings_base.hpp src/encodings_generated.hpp src/encodings_windows.hpp src/encodings.hpp
+        src/encodings_base.hpp src/encodings_windows.hpp src/encodings.hpp
 )
 
 add_library(encoding-detection INTERFACE)
