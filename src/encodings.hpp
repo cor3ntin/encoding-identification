@@ -55,13 +55,13 @@ namespace details {
         if(name.empty())
             return details::id::unknown;
         for(auto&& e = std::begin(details::data); e != std::end(details::data); e++) {
-            if(compare_name(e->name, name))
+            if(e && e->name && compare_name(e->name, name))
                 return details::id(e->mib);
         }
         return details::id::unknown;
     }
 
-    struct encoding_alias_view : public std::ranges::view_interface<encoding_alias_view>{
+    class encoding_alias_view : public std::ranges::view_interface<encoding_alias_view>{
 
         // TODO: remove
         constexpr encoding_alias_view() = default;
