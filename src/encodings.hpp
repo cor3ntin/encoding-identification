@@ -9,7 +9,7 @@
 #endif
 
 #include <algorithm>
-#include <array>
+#include <functional>
 #include <locale>
 #include <string_view>
 #include <fstream>
@@ -41,7 +41,7 @@ namespace cor3ntin::encoding {
 
 namespace details {
 
-    constexpr const char* normalize_utf(const char* name) {
+    constexpr const char* normalize_utf(const char* name) noexcept {
         if(!name)
             return nullptr;
         if (compare_name(name, "UTF-16LE") || compare_name(name, "UTF-16BE"))
@@ -51,21 +51,21 @@ namespace details {
         return name;
     }
 
-    constexpr details::id find_encoding(std::string_view name) {
+    constexpr details::id find_encoding(std::string_view name) noexcept {
         if(name.empty())
             return details::id::unknown;
         for(auto&& e = std::begin(details::data); e != std::end(details::data); e++) {
-            if(e && e->name && compare_name(e->name, name))
+            if(compare_name(e->name, name))
                 return details::id(e->mib);
         }
         return details::id::unknown;
     }
 
     class encoding_alias_view : public std::ranges::view_interface<encoding_alias_view>{
+    public:
 
-        // TODO: remove
-        constexpr encoding_alias_view() = default;
-        constexpr encoding_alias_view(int mib) : mib(mib){};
+        constexpr explicit encoding_alias_view(int mib) noexcept : mib(mib){};
+        
         struct iterator {
             using value_type = const char*;
             using reference = const char*;
@@ -75,7 +75,7 @@ namespace details {
             constexpr iterator() = default;
             constexpr iterator(const iterator&) = default;
 
-            constexpr iterator(int mib) : mib(mib) {
+            constexpr explicit iterator(int mib) noexcept : mib(mib) {
                 d = std::lower_bound(std::begin(details::data), std::end(details::data), mib,
                                      [](const enc_data& d, int mib) { return d.mib < mib; });
             }
@@ -117,17 +117,16 @@ namespace details {
             constexpr iterator& operator-=(difference_type n) {
                 d-=n;
                 return *this;
-
             }
 
-            constexpr bool operator==(iterator it) const {
-                return mib == it.mib && d == it.d;
+            friend constexpr bool operator==(const iterator& a, const iterator& b) noexcept {
+                return a.mib == b.mib && a.d == b.d;
             }
 
-            constexpr auto operator<=>(iterator it) const {
-                if(mib <=> it.mib == 0)
-                    return mib <=> it.mib;
-                return d <=> it.d;
+            friend constexpr auto operator<=>(const iterator& a, const iterator& b) noexcept {
+                if(auto c = a.mib <=> b.mib; c != 0)
+                    return c;
+                return a.d <=> b.d;
             }
 
             friend constexpr iterator operator+(const iterator& it, difference_type n) {
@@ -136,10 +135,10 @@ namespace details {
             friend constexpr iterator operator+(difference_type n, const iterator& it) {
                 return iterator{it} += n;
             }
+
             friend constexpr iterator operator-(const iterator& it, difference_type n) {
                 return iterator{it} -= n;
             }
-
             friend constexpr difference_type operator-(const iterator& a, const iterator& b) {
                 return a.d - b.d;
             }
@@ -155,7 +154,7 @@ namespace details {
         }
         constexpr iterator end() const {
             auto it = iterator{mib};
-            while(it.d && it.d->mib == mib)
+            while(it.d->mib == mib)
                 ++it;
             return it;
         }
@@ -167,27 +166,30 @@ namespace details {
 
 
 struct text_encoding {
+
+    static constexpr std::size_t max_name_length = 63;
+
     using id = details::id;
     using alias_view = details::encoding_alias_view;
 
-
-    constexpr text_encoding(std::string_view name) noexcept :
+    constexpr explicit text_encoding(std::string_view name) noexcept :
         text_encoding(name, details::find_encoding(name)) {}
-    constexpr text_encoding(id mib) noexcept : text_encoding({}, mib) {}
+    constexpr text_encoding(id mib) noexcept : text_encoding({}, mib, true) {}
 
-    constexpr text_encoding() noexcept : text_encoding({}, details::id::unknown) {}
+    constexpr text_encoding() noexcept = default;
 
 private:
-    constexpr text_encoding(std::string_view name, id mib) :
-        mib_(mib == id::unknown ? details::id::other : mib) {
+    constexpr text_encoding(std::string_view name, id mib, bool from_mib = false) :
+        mib_(mib == id::unknown && !from_mib ? id::other : mib) {
         if(name.empty()) {
-            const auto a = details::encoding_alias_view(int(mib));
-            if(a.begin() != a.end()) {
-                name = *a.begin();
+            const auto a = alias_view(int(mib));
+            const auto beg = a.begin();
+            if(beg != a.end()) {
+                name = *beg;
             }
         }
         if(!name.empty()) {
-            std::size_t s = std::min(name.size(), std::size_t(63));
+            const auto s = std::min(name.size(), max_name_length);
             std::copy_n(name.data(), s, std::begin(name_));
             name_[s] = '\0';
         }
@@ -200,7 +202,7 @@ public:
 
     constexpr const char* name() const noexcept {
         if(name_[0] != '\0') {
-            return name_.data();
+            return name_;
         }
         return nullptr;
     }
@@ -209,17 +211,16 @@ public:
         return alias_view(int(mib_));
     }
 
-
     //#ifdef __cpp_consteval
-    static consteval text_encoding literal();
-    static consteval text_encoding wide_literal();
+    static consteval text_encoding literal() noexcept;
+    static consteval text_encoding wide_literal() noexcept;
     //#endif
 
-    static inline text_encoding environment() noexcept;
+    static inline text_encoding environment();
     static inline text_encoding wide_environment() noexcept;
 
     template<id id>
-    static bool environment_is() noexcept;
+    static bool environment_is();
 
     template<id id>
     static bool wide_environment_is() noexcept;
@@ -227,21 +228,20 @@ public:
     static inline text_encoding for_locale(const std::locale&) noexcept;
     static inline text_encoding wide_for_locale(const std::locale&) noexcept;
 
-    constexpr bool operator==(const text_encoding& other) noexcept {
-        if(mib() <= id::unknown && other.mib() <= id::unknown) {
-            return other.name() == name();
+    friend constexpr bool operator==(const text_encoding& encoding, const text_encoding& other) noexcept {
+        if(encoding.mib() == id::other && other.mib() == id::other) {
+            return details::compare_name(other.name_, encoding.name_);
         }
-        return other.mib() == mib();
+        return other.mib() == encoding.mib();
     }
 
-    constexpr bool operator==(text_encoding::id i) noexcept {
-        return i == mib();
+    friend constexpr bool operator==(const text_encoding& encoding, id i) noexcept {
+        return i == encoding.mib();
     }
 
 
 private:
-    // poor man constexpr string
-    std::array<char, 30> name_ = {0};
+    char name_[max_name_length + 1] = { 0 };
     id mib_ = id::unknown;
 #ifdef _MSC_VER
     int m_code_page = 0;
@@ -249,14 +249,13 @@ private:
 };
 
 
-inline text_encoding text_encoding::environment() noexcept {
+inline text_encoding text_encoding::environment() {
     static text_encoding encoding = []() -> text_encoding {
 #if defined(_WIN32)
         auto cp = GetACP();
-        text_encoding e;
-        e.mib_ = details::mib_from_page(cp);
-        e.m_code_page = cp;
-        return e;
+        auto result = text_encoding(details::mib_from_page(cp));
+        result.m_code_page = cp;
+        return result;
 #else
         auto make_locale = [](const char* name) {
             return newlocale(LC_CTYPE_MASK, name, (locale_t)0);
@@ -313,22 +312,20 @@ inline text_encoding text_encoding::environment() noexcept {
             args.remove_prefix(pos);
             return extract_locale(std::span{args.data(), args.size()});
 #    endif
-            std::string filename = "/proc/self/environ";
-            std::ifstream file(filename);
+            std::ifstream file("/proc/self/environ");
             if(!file)
                 return make_locale("");
             buffer =
                 std::string{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
             return extract_locale(buffer);
         };
-        details::scoped_locale loc = __get_locale();
+        details::scoped_locale loc(__get_locale());
         if(!loc)
             return {};
         const char* name = details::normalize_utf(nl_langinfo_l(CODESET, loc));
         if(!name)
             return {};
-        const id mib = details::find_encoding(name);
-        return text_encoding(name, mib);
+        return text_encoding(name);
 #endif    // _WIN32
     }();
     return encoding;
@@ -337,21 +334,21 @@ inline text_encoding text_encoding::environment() noexcept {
 inline text_encoding text_encoding::wide_environment() noexcept {
 #ifdef _WIN32
     // windows is always UTF-16LE
-    return text_encoding("UTF-16", details::id::UTF16);
+    return text_encoding("UTF-16", id::UTF16);
 #else
     // GLIBC is always UCS4
-    return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", details::id::UCS2)
-                                : text_encoding("ISO-10646-UCS-4", details::id::UCS4);
+    return sizeof(wchar_t) == 2 ? text_encoding("ISO-10646-UCS-2", id::UCS2)
+                                : text_encoding("ISO-10646-UCS-4", id::UCS4);
 #endif
 }
 
 
 template<text_encoding::id id_>
-bool text_encoding::environment_is() noexcept {
+bool text_encoding::environment_is() {
 #ifdef _WIN32
     return environment().mib() == id_;
 #else
-    details::scoped_locale loc = newlocale(LC_CTYPE_MASK, "", (locale_t)0);
+    details::scoped_locale loc(newlocale(LC_CTYPE_MASK, "", (locale_t)0));
     const char* name = details::normalize_utf(nl_langinfo_l(CODESET, loc));
     return details::encoding_is<id_>(name);
 #endif
@@ -364,11 +361,11 @@ bool text_encoding::wide_environment_is() noexcept {
 
 inline text_encoding text_encoding::for_locale(const std::locale& l) noexcept {
 #ifdef _WIN32
+    return {};
 #else
-    details::scoped_locale loc = newlocale(LC_CTYPE, l.name().c_str(), 0);
+    details::scoped_locale loc(newlocale(LC_CTYPE, l.name().c_str(), 0));
     const char* name = details::normalize_utf(nl_langinfo_l(CODESET, loc));
-    const id mib = details::find_encoding(name);
-    return text_encoding(name, mib);
+    return text_encoding(name);
 #endif
 }
 
@@ -377,38 +374,33 @@ inline text_encoding text_encoding::wide_for_locale(const std::locale&) noexcept
 }
 
 //#ifdef __cpp_consteval
-consteval text_encoding text_encoding::literal() {
+consteval text_encoding text_encoding::literal() noexcept {
 #ifdef __GNUC_EXECUTION_CHARSET_NAME
-    return text_encoding(details::normalize_utf(__GNUC_EXECUTION_CHARSET_NAME),
-                         details::find_encoding(details::normalize_utf(__GNUC_EXECUTION_CHARSET_NAME)));
+    return text_encoding(details::normalize_utf(__GNUC_EXECUTION_CHARSET_NAME));
 #elif defined(__clang_literal_encoding__)
-    return text_encoding(details::normalize_utf(__clang_literal_encoding__),
-                         details::find_encoding(details::normalize_utf(__clang_literal_encoding__)));
+    return text_encoding(details::normalize_utf(__clang_literal_encoding__));
 #elif defined(__clang__)
-    return text_encoding("UTF-8", details::id::UTF8);
+    return text_encoding("UTF-8", id::UTF8);
 #elif defined(_MSVC_EXECUTION_CHARACTER_SET)
-    text_encoding e;
-    e.mib_ = details::mib_from_page(_MSVC_EXECUTION_CHARACTER_SET);
-    e.m_code_page = _MSVC_EXECUTION_CHARACTER_SET;
-    return e;
+    auto result = text_encoding(details::mib_from_page(_MSVC_EXECUTION_CHARACTER_SET));
+    result.m_code_page = _MSVC_EXECUTION_CHARACTER_SET;
+    return result;
 #else
     return {};
 #endif
 }
 
-consteval text_encoding text_encoding::wide_literal() {
+consteval text_encoding text_encoding::wide_literal() noexcept {
 #ifdef _WIN32
     // WINDOWS is always UTF-16
-    return text_encoding("UTF-16", details::id::UTF16);
+    return text_encoding("UTF-16", id::UTF16);
 #elif defined(__GNUC_WIDE_EXECUTION_CHARSET_NAME)
-    return text_encoding(details::normalize_utf(__GNUC_WIDE_EXECUTION_CHARSET_NAME),
-                         details::find_encoding(details::normalize_utf(__GNUC_WIDE_EXECUTION_CHARSET_NAME)));
+    return text_encoding(details::normalize_utf(__GNUC_WIDE_EXECUTION_CHARSET_NAME));
 #elif defined(__clang_wide_literal_encoding__)
-    return text_encoding(details::normalize_utf(__clang_wide_literal_encoding__),
-                         details::find_encoding(details::normalize_utf(__clang_wide_literal_encoding__)));
+    return text_encoding(details::normalize_utf(__clang_wide_literal_encoding__));
 #elif defined(__GNUC__) || defined(__clang__)
-    return sizeof(wchar_t) == 2 ? text_encoding("UTF-16", details::id::UTF16)
-                                : text_encoding("UTF-32", details::id::UTF32);
+    return sizeof(wchar_t) == 2 ? text_encoding("UTF-16", id::UTF16)
+                                : text_encoding("UTF-32", id::UTF32);
 #else
     return {};
 #endif
@@ -417,6 +409,16 @@ consteval text_encoding text_encoding::wide_literal() {
 
 
 }    // namespace cor3ntin::encoding
+
+namespace std {
+template <>
+struct hash<cor3ntin::encoding::text_encoding> {
+  auto operator()(const cor3ntin::encoding::text_encoding& e) noexcept
+  {
+    return hash<cor3ntin::encoding::text_encoding::id>{}(e.mib());
+  }
+};
+}
 
 namespace std::ranges {
 template <>

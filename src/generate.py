@@ -1,6 +1,7 @@
 import csv
 import re
 import collections
+import operator
 
 HEADER = """
 #pragma once
@@ -9,19 +10,16 @@ namespace cor3ntin::encoding::details {{
             other = 1,
             unknown = 2,
 {}
-            reserved = 3000
         }};
         struct enc_data {{
             int mib;
             const char* name;
         }};
-        constexpr bool compare_name(std::string_view a, std::string_view b) noexcept;
-        constexpr bool do_compare(std::initializer_list<const char*> names, const char* name);
         constexpr inline enc_data data[] = {{
-{}            {{ 0, nullptr }}
+{}
         }};
     template <id id_>
-    constexpr bool encoding_is(const char* name) {{
+    constexpr bool encoding_is(const char* name) noexcept {{
         {}
         return false;
     }}
@@ -37,6 +35,8 @@ def get_enum_name(lst, name):
         e = "".join(filter(lambda c : c != '-', e))
     if e == "Unicode":
         e = "UCS2"
+    if e == "IBBM904":
+        e = "IBM904"
     return e
 
 def get_encoding():
@@ -63,7 +63,8 @@ def get_encoding():
             n = row['MIBenum']
             e = get_enum_name(aliases, name)
 
-            if int(n) > 1 and len(e) > 1 :
+            # mib==33 and mib==34 are the excluded NATS-DANO and NATS-DANO-ADD, respectively
+            if int(n) > 1 and int(n) != 33 and int(n) != 34 and len(e) > 1 :
                 encodings.append((n, e, aliases))
 
     return encodings
@@ -78,7 +79,7 @@ if __name__ == "__main__":
     max = 0
     names = []
 
-    for enc in encodings:
+    for enc in sorted(encodings, key=lambda tup: int(tup[0])):
         enum_format = enum_format + "            {} = {},\n".format(enc[1], enc[0])
         #names.append(enc[1])
         if len(enc[1]) > max: max = len(enc[1])
@@ -89,7 +90,7 @@ if __name__ == "__main__":
             data_format = data_format + "            {{ {}, \"{}\" }},\n".format(enc[0], alias)
         template_formats = template_formats + """
         if constexpr(id_ == details::id::{}) {{
-            return do_compare({}, name);
+            return details::do_compare({}, name);
         }}
         """.format(enc[1], lst)
 

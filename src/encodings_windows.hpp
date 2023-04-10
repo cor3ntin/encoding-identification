@@ -9,7 +9,8 @@ struct encoding_windows_data {
     int cp;
     id id;
 };
-constexpr encoding_windows_data win_mapping[] = {{ 37, id::IBM037},
+constexpr inline encoding_windows_data win_mapping[] = 
+                                                {{ 37, id::IBM037},
                                                  {437, id::PC8CodePage437},
                                                  {500, id::IBM500},
                                                  {708, id::ISOLatinArabic},
@@ -115,10 +116,12 @@ constexpr encoding_windows_data win_mapping[] = {{ 37, id::IBM037},
                                                  {65000, id::UTF7},
                                                  {65001, id::UTF8}};
 
-constexpr id mib_from_page(int page) {
-    for(const auto& e : win_mapping) {
-        if(e.cp == page)
-            return e.id;
+constexpr id mib_from_page(int page) noexcept {
+    const auto end = std::end(win_mapping);
+    const auto it = std::lower_bound(std::begin(win_mapping), end, page,
+        [](const encoding_windows_data& d, int page) { return d.cp < page; });
+    if(it != end && it->cp == page) {
+        return it->id;        
     }
     return id::other;
 }
