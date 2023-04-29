@@ -15,6 +15,22 @@ add_custom_command(OUTPUT src/encodings_generated.hpp
     DEPENDS
         src/generate.py src/character-sets-1.csv)
 
+IF (WIN32)
+add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodings_detection.hpp
+    COMMAND
+        ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/
+    COMMAND
+        ${CMAKE_SOURCE_DIR}/singleheader.bat >> ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodings_detection.hpp
+    COMMAND
+         ${CMAKE_SOURCE_DIR}/simplesed.bat "${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodings_detection.hpp"
+    WORKING_DIRECTORY
+        ${CMAKE_SOURCE_DIR}/src
+    COMMENT
+        "Building single header"
+    DEPENDS
+        src/encodings_base.hpp src/encodings_windows.hpp src/encodings.hpp
+)
+ELSE()
 add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodings_detection.hpp
     COMMAND
         ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/
@@ -27,6 +43,7 @@ add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodin
     DEPENDS
         src/encodings_base.hpp src/encodings_windows.hpp src/encodings.hpp
 )
+ENDIF()
 
 add_library(encoding-detection INTERFACE)
 target_sources(encoding-detection INTERFACE ${CMAKE_SOURCE_DIR}/generated_include/cor3ntin/encodings_detection.hpp)
